@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+sourceCompatibility= 1.8 
+
+tasks.withType(JavaCompile) {
+   options.encoding= 'UTF-8'
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.49'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.13'
+}
+
+jar { 
+    version = 1.0
+    mainClassName= 'library_proj2.Main' 
+    baseName= 'Main'
+    appendix = 'bin'
+
+    manifest{
+        attributes 'Title': baseName, 'Version': version, 'Main-Class': mainClassName
+    }
+    dependsOn configurations.runtime
+}
+
+
+
+
