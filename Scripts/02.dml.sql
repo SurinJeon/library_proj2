@@ -157,4 +157,7 @@ update book
 
 select * from rentalstatus;
 select * from book;
+select * from user;
+select * from bookcategory;
+select * from manager;
 

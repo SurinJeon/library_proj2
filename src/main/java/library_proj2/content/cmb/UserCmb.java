@@ -66,17 +66,19 @@ public class UserCmb extends JPanel implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnSearch(ActionEvent e) {
-		List<?> blankList = new ArrayList();
+		List<User> blankList = new ArrayList();
 		try {
 			String searchItem = (String) cmbUser.getSelectedItem();
-			list = switchList(searchItem);
+			list = switchList(searchItem); 
 			
-			if(list != null) {
-				pUserList.setList(list);
-				pUserList.setList();
-			} else {
-				throw new NotAvailableException("해당 회원이 존재하지 않습니다.");
-			}
+//			if(list != null) {
+//				pUserList.setList(list); // pUserList라는 패널에 list를 세팅
+//				pUserList.setList(); // 로드하는 메소드
+//				System.out.println("cmb에서 list" + list);
+//			} else {
+//				throw new NotAvailableException("해당 회원이 존재하지 않습니다.");
+//			}
+			System.out.println("list >> " + list);
 		} catch (NotAvailableException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 			pUserList.setList(blankList);
@@ -114,7 +116,10 @@ public class UserCmb extends JPanel implements ActionListener {
 	public List<User> getList() {
 		return list;
 	}
-	
+	public void setList(List<User> list) {
+		System.out.println("setList (usercmb)>> " + list);
+		this.list = list;
+	}
 	public void clearTf() {
 		tfUser.setText("");
 	}

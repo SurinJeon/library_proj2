@@ -119,8 +119,6 @@ ALTER TABLE library2.rentalstatus
 		);
 	
 alter table library2.rentalstatus modify rentalno int not null auto_increment;
-	
-show table library2;
 
 grant all
    on library2.*
