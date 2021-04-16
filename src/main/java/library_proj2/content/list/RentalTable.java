@@ -15,13 +15,14 @@ import library_proj2.dto.RentalStatus;
 import library_proj2.dto.User;
 import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
+import library_proj2.service.ReturnService;
 import library_proj2.ui.ReturnPage;
 
 @SuppressWarnings("serial")
 public class RentalTable extends AbstractCustomTable<RentalStatus> implements MouseListener{
 	
 	private MainService mainService;
-	private RentalService rentalService;
+	private ReturnService returnService;
 	private BookTable pBookList;
 	private BookDetail pBookDetail;
 	private int delimiter;
@@ -39,8 +40,8 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 		this.mainService = mainService;
 	}
 
-	public void setRentalService(RentalService rentalService) {
-		this.rentalService = rentalService;
+	public void setRentalService(ReturnService returnService) {
+		this.returnService = returnService;
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			
 			// 각각 Detail에 넣을 객체 찾아냄
 			User userDetail = mainService.searchByUserNo(new User(userNo)).get(0); 
-			Book bookDetail = rentalService.searchByBookNo(new Book(bookNo)).get(0);
+			Book bookDetail = returnService.bookDetail(new Book(bookNo));
 			
 			ReturnPage frame = new ReturnPage();
 			
@@ -100,34 +101,41 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			frame.getpUserList().table.setRowSelectionInterval(idxRent, idxRent);
 			frame.getpUserDetail().setUser(userDetail);
 			
-			List<RentalStatus> list = mainService.mainToReturn(null, new User(userNo)); // userno로 rentalstatus검색해야됨...
+			List<RentalStatus> list = mainService.mainToReturn(null, new User(userNo));
 			
 			frame.getpRentalList().setList(list);
 			frame.getpRentalList().setList();
 			
-			List<RentalStatus> searchRentalStatus = list.stream()
-					.filter(r -> r.getBookNo().getBookNo().equals(bookNo))
-					.collect(Collectors.toList());
+			RentalStatus rental = mainService.mainToReturn(null, new User(userNo)).get(0);
+			List<RentalStatus> searchRentalList= frame.getpRentalList().getList();
 			
-			RentalStatus rental = searchRentalStatus.get(0);
-			
-			int idxRs = frame.getpBookList().getList().indexOf(rental);
-			
-			frame.getpBookList().table.setRowSelectionInterval(idxRs, idxRs);
-			
+			int idxRs = 0;
+
+			for (int i = 0; i < searchRentalList.size(); i++) {
+				if (searchRentalList.get(i).getBookNo().getBookNo().equals(bookNo)) {
+					idxRs = i;
+					System.out.println(searchRentalList.get(i).getBookNo().getBookNo());
+					break;
+				} else {
+					continue;
+				}
+			}
 			frame.getpBookDetail().setBook(bookDetail);
 			
-			frame.setpBookList(pBookList);
+			frame.getpRentalList().table.setRowSelectionInterval(idxRs, idxRs);
+			
+			frame.setpBookListMain(pBookList);
+//			frame.setpRentalList(p);
 			frame.setVisible(true);
 			
 			//회원/도서목록 select되게 해+야함
-		} else if(delimiter == 2 && e.getClickCount() == 1){ // Return frame에서 쓰임
+		} else if(delimiter == 3 && e.getClickCount() == 1){ // Return frame에서 쓰임
 			
 			JTable table = (JTable)e.getSource();
 			int idx = table.getSelectedRow();
 			String bookNo = (String)table.getValueAt(idx, 0);
 			
-			Book searchBook = rentalService.searchByBookNo(new Book(bookNo)).get(0);
+			Book searchBook = returnService.bookDetail(new Book(bookNo));
 			
 			pBookDetail.setBook(searchBook);
 		}
@@ -161,7 +169,15 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 	public void setpBookList(BookTable pBookList) {
 		this.pBookList = pBookList;
 	}
-	
+
+	public ReturnService getReturnService() {
+		return returnService;
+	}
+
+	public void setReturnService(ReturnService returnService) {
+		this.returnService = returnService;
+	}
+
 	public BookDetail getpBookDetail() {
 		return pBookDetail;
 	}

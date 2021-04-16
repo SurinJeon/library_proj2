@@ -20,16 +20,19 @@ import library_proj2.content.list.RentalTable;
 import library_proj2.content.list.UserTable;
 import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
+import library_proj2.service.ReturnService;
 
 public class MainPage2 extends JFrame {
 
 	private JPanel contentPane;
 	private MainService mainService;
 	private RentalService rentalService;
+	private ReturnService returnService;
 	private UserCmb pUserCmb;
 	private UserTable pUserList;
 	private BookCmb pBookCmb;
 	private BookTable pBookList;
+	private RentalTable pRentalList;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -47,9 +50,15 @@ public class MainPage2 extends JFrame {
 	public MainPage2() {
 		mainService = new MainService();
 		rentalService = new RentalService();
+		returnService = new ReturnService();
+		
 		initialize();
+		
 		pUserCmb.setpUserList(pUserList);
 		pBookCmb.setpBookList(pBookList);
+		
+		pUserList.setpRentalList(pRentalList);
+		
 	}
 	
 	private void initialize() {
@@ -85,7 +94,9 @@ public class MainPage2 extends JFrame {
 		pFirst.add(pRental);
 		pRental.setLayout(new BorderLayout(0, 0));
 		
-		RentalTable pRentalList = new RentalTable();
+		pRentalList = new RentalTable(1);
+		pRentalList.setMainService(mainService);
+		pRentalList.setReturnService(returnService);
 		pRental.add(pRentalList, BorderLayout.CENTER);
 		
 		JPanel pText = new JPanel();

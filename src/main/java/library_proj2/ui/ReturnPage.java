@@ -25,6 +25,7 @@ import library_proj2.content.list.UserTable;
 import library_proj2.dto.Book;
 import library_proj2.dto.User;
 import library_proj2.service.MainService;
+import library_proj2.service.RentalService;
 import library_proj2.service.ReturnService;
 
 @SuppressWarnings("serial")
@@ -34,18 +35,24 @@ public class ReturnPage extends JFrame implements ActionListener {
 	private UserCmb pCmbUser;
 	private MainService mainService;
 	private ReturnService returnService;
+	private RentalService rentalService;
 	private UserTable pUserList;
 	private UserDetail pUserDetail;
 	private BookDetail pBookDetail;
 	private JButton btnReturn;
 	private BookTable pBookList;
 	private RentalTable pRentalList;
+	private BookTable pBookListMain;
 	
 	public ReturnPage() {
 		mainService = new MainService();
 		returnService = new ReturnService();
-		pBookList = new BookTable();
+		rentalService = new RentalService();
 		initialize();
+		
+		pUserList.setpRentalList(pRentalList);
+		pRentalList.setpBookDetail(pBookDetail);
+		
 	}
 	private void initialize() {
 		setTitle("반납화면");
@@ -64,11 +71,11 @@ public class ReturnPage extends JFrame implements ActionListener {
 		pCenter.add(pSearch1);
 		pSearch1.setLayout(new BorderLayout(0, 0));
 		
-		pCmbUser = new UserCmb(2);
+		pCmbUser = new UserCmb(3);
 		pCmbUser.setService(mainService);
 		pSearch1.add(pCmbUser, BorderLayout.NORTH);
 		
-		pUserList = pCmbUser.getpUserList();
+		pUserList = new UserTable(3);
 		pUserList.setService(mainService);
 		pUserList.loadData();
 		
@@ -92,11 +99,13 @@ public class ReturnPage extends JFrame implements ActionListener {
 		lblText.setHorizontalAlignment(SwingConstants.CENTER);
 		pText.add(lblText);
 		
-		pRentalList = pUserList.getpRentalList();
+		pRentalList = new RentalTable(3);
+		pRentalList.setMainService(mainService);
+		pRentalList.setReturnService(returnService);
 		pRentalList.loadData();
 		pSearch2.add(pRentalList, BorderLayout.CENTER);
 		
-		pBookDetail = pRentalList.getpBookDetail();
+		pBookDetail = new BookDetail();
 		pCenter.add(pBookDetail);
 		
 		JPanel pBtn = new JPanel();
@@ -117,35 +126,41 @@ public class ReturnPage extends JFrame implements ActionListener {
 			actionPerformedBtnReturn(e);
 		}
 	}
+
 	protected void actionPerformedBtnReturn(ActionEvent e) {
 		User user = pUserDetail.getUser();
 		Book book = pBookDetail.getBook();
-		
+
 		System.out.println(user);
 		System.out.println(book);
-		
-		if(user != null && book != null) {
-			returnService.transReturn(book);
-		} else {
-			if(user == null) {
-				JOptionPane.showMessageDialog(null, "회원을 선택해주세요.");
-			} else if(book != null){
-				JOptionPane.showMessageDialog(null, "도서를 선택해주세요.");
+
+		try {
+			if (user != null && book != null) {
+				returnService.transReturn(book);
+			} else {
+				if (user == null) {
+					JOptionPane.showMessageDialog(null, "회원을 선택해주세요.");
+				} else if (book != null) {
+					JOptionPane.showMessageDialog(null, "도서를 선택해주세요.");
+				}
 			}
+			JOptionPane.showMessageDialog(null, "반납이 완료되었습니다.");
+			pBookListMain.setMainService(mainService);
+			pBookListMain.setRentalService(rentalService);
+			pBookListMain.loadData();
+			pBookList.loadData();
+			pRentalList.loadData();
+
+		} catch (Exception e1) {
+			e1.getStackTrace();
+		} finally {
+			pUserDetail.clearTf();
+			pBookDetail.clearTf();
+
 		}
-		
-		JOptionPane.showMessageDialog(null, "반납이 완료되었습니다.");
-		
-		pUserDetail.clearTf();
-		pBookDetail.clearTf();
-		
-		
-		pBookList.setMainService(mainService);
-		pBookList.setReturnService(returnService);
-		pBookList.loadData();
+
 	}
-	
-	
+
 	public BookTable getpBookList() {
 		return pBookList;
 	}
@@ -177,6 +192,12 @@ public class ReturnPage extends JFrame implements ActionListener {
 	}
 	public void setpRentalList(RentalTable pRentalList) {
 		this.pRentalList = pRentalList;
+	}
+	public BookTable getpBookListMain() {
+		return pBookListMain;
+	}
+	public void setpBookListMain(BookTable pBookListMain) {
+		this.pBookListMain = pBookListMain;
 	} 
 	
 	

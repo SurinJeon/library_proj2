@@ -116,7 +116,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			}
 		}
 		
-		if(delimiter == 2 && e.getClickCount() == 1) {
+		if((delimiter == 2 || delimiter == 3) && e.getClickCount() == 1) {
 			JTable table = (JTable)e.getSource();
 			int idx = table.getSelectedRow();
 			int userNo = (int)table.getValueAt(idx, 0);
@@ -151,6 +151,10 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 
 	public RentalTable getpRentalList() {
 		return pRentalList;
+	}
+
+	public void setpRentalList(RentalTable pRentalList) {
+		this.pRentalList = pRentalList;
 	}
 
 	public void setpBookList(BookTable pBookList) {

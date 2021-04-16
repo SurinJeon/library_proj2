@@ -22,7 +22,7 @@ import library_proj2.content.list.BookTable;
 import library_proj2.content.list.UserTable;
 import library_proj2.dto.Book;
 import library_proj2.dto.User;
-import library_proj2.exception.RentalException;
+import library_proj2.exception.RentalAndReturnException;
 import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
 
@@ -139,28 +139,28 @@ public class RentalPage extends JFrame implements ActionListener {
 	protected void actionPerformedBtnRent(ActionEvent e){
 		User user = pUserDetail.getUser();
 		Book book = pBookDetail.getBook();
-		
+
 		try {
-		if(user != null && book != null) {
-			System.out.println(book.getIsRented());
-			if (book.getIsRented() == 0) {
-				throw new RentalException("이미 대출된 도서입니다.");
+			if (user != null && book != null) {
+				System.out.println(book.getIsRented());
+				if (book.getIsRented() == 0) {
+					throw new RentalAndReturnException("이미 대출된 도서입니다.");
+				}
+				rentalService.transRental(user, book);
+			} else {
+				if (user == null) {
+					JOptionPane.showMessageDialog(null, "회원을 선택해주세요.");
+				} else if (book == null) {
+					JOptionPane.showMessageDialog(null, "도서를 선택해주세요.");
+				}
 			}
-			rentalService.transRental(user, book);
-		} else {
-			if(user == null) {
-				JOptionPane.showMessageDialog(null, "회원을 선택해주세요.");
-			} else if(book == null) {
-				JOptionPane.showMessageDialog(null, "도서를 선택해주세요.");
-			}
-		}
-		
-		JOptionPane.showMessageDialog(null, "대여가 완료되었습니다.");
-		pBookListMain.setMainService(mainService);
-		pBookListMain.setRentalService(rentalService);
-		pBookListMain.loadData();
-		pBookList.loadData();
-		} catch (RentalException e1) {
+
+			JOptionPane.showMessageDialog(null, "대여가 완료되었습니다.");
+			pBookListMain.setMainService(mainService);
+			pBookListMain.setRentalService(rentalService);
+			pBookListMain.loadData();
+			pBookList.loadData();
+		} catch (RentalAndReturnException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			pUserDetail.clearTf();

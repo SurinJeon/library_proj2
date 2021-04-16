@@ -97,7 +97,7 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 				((BookCount) b).getBookNo(),
 				((BookCount) b).getBookTitle(),
 				((BookCount) b).getCanRent() > 0 ?
-						"대여 가능 권수" + "(" + ((BookCount) b).getCanRent() + ")" + "/" + "총 권수" + "(" + size + ")"
+						"대여 가능 권수" + "(" + ((BookCount) b).getCanRent() + ")" + " / " + "총 권수" + "(" + size + ")"
 						: "대여불가"
 					};
 		}
@@ -149,44 +149,44 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		try {
-		if (delimiter == 1 && e.getClickCount() == 2) {
-			JTable table = (JTable) e.getSource();
-			int idx = table.getSelectedRow();
+			if (delimiter == 1 && e.getClickCount() == 2) {
+				JTable table = (JTable) e.getSource();
+				int idx = table.getSelectedRow();
 
-			String bookNo = (String) table.getValueAt(idx, 0);
+				String bookNo = (String) table.getValueAt(idx, 0);
 
-			BookCount selectBook = mainService.searchByBookNo(new Book(bookNo)).get(0); 
-			if (selectBook != null && selectBook.getCanRent() > 0) { // 대여
-				RentalPage frame = new RentalPage();
-				
-				frame.getpBookList().setDelimiter(2); // rentalpage로 넘기고 delimiter 설정
-				
-				List<Book> bookList= rentalService.searchByBookNo(new Book(bookNo));
-				frame.getpBookList().setBookList(bookList);
-				frame.getpBookList().setList();
-				
-				BookTable bookPanel = frame.getpBookList();
-				
-				frame.setpBookListMain(this);
-				frame.setVisible(true);
-				
-				this.delimiter = 1; // 다시 목록 계속 더블클릭 할 수 있도록
-			} else{
-				throw new NotAvailableException("대출할 수 없는 도서입니다.");
+				BookCount selectBook = mainService.searchByBookNo(new Book(bookNo)).get(0);
+				if (selectBook != null && selectBook.getCanRent() > 0) { // 대여
+					RentalPage frame = new RentalPage();
+
+					frame.getpBookList().setDelimiter(2); // rentalpage로 넘기고 delimiter 설정
+
+					List<Book> bookList = rentalService.searchByBookNo(new Book(bookNo));
+					frame.getpBookList().setBookList(bookList);
+					frame.getpBookList().setList();
+
+					BookTable bookPanel = frame.getpBookList();
+
+					frame.setpBookListMain(this);
+					frame.setVisible(true);
+
+					this.delimiter = 1; // 다시 목록 계속 더블클릭 할 수 있도록
+				} else {
+					throw new NotAvailableException("대출할 수 없는 도서입니다.");
+				}
+			} else if ((delimiter == 2 || delimiter == 3) && e.getClickCount() == 1) {
+				JTable table = (JTable) e.getSource();
+				int idx = table.getSelectedRow();
+
+				String bookNo = (String) table.getValueAt(idx, 0);
+
+				Book bookDetail = rentalService.bookDetail(new Book(bookNo));
+				pBookDetail.setBook(bookDetail);
 			}
-		} else if(delimiter == 2 && e.getClickCount() == 1) {
-			JTable table = (JTable) e.getSource();
-			int idx = table.getSelectedRow();
-
-			String bookNo = (String) table.getValueAt(idx, 0);
-			
-			Book bookDetail = rentalService.bookDetail(new Book(bookNo));
-			pBookDetail.setBook(bookDetail);
-		}
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		}
-	
+
 	}
 
 	@Override

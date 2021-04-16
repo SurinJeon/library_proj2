@@ -49,7 +49,26 @@ public class ReturnService {
 	public List<Book> searchByBookCategory(Book book) {
 		return daoBook.selectBookByCategory(book);
 	}
-
+	
+	public Book bookDetail(Book book) {
+		String sql = "select bookno, booktitle, isRented, bookcategory, categoryname, count, rentalrange"
+				+ " from vw_all"
+				+ " where bookno like ?";
+		try(Connection con = JdbcUtil.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, "%" + book.getBookNo() + "%");
+			try(ResultSet rs = pstmt.executeQuery()){
+				if(rs.next()) {
+					return getBook(rs);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void transReturn(Book book) {
 		String upRentalSql = "update rentalstatus set userreturndate = curdate() where bookno = ?";
 		String upBookSql = "update book set isRented = 1 where bookno = ?";
@@ -75,7 +94,50 @@ public class ReturnService {
 			rollbackUtil(con);
 		}
 	}
+	
+	private Book getBook(ResultSet rs) throws SQLException {
+		String bookNo = null;
+		String bookTitle = null;
+		int isRented = 0;
+		BookCategory bookCategory = null;
+		int count = 0;
+		int rentalRange = 0;
+		
 
+		try {
+			bookNo = rs.getString("bookno");
+		} catch (SQLException e) {
+		}
+
+		try {
+			bookTitle = rs.getString("booktitle");
+		} catch (SQLException e) {
+		}
+
+		try {
+			isRented = rs.getInt("isrented");
+		} catch (SQLException e) {
+		}
+		
+		try {
+			bookCategory = new BookCategory(rs.getInt("bookcategory"));
+			bookCategory.setCategoryName(rs.getString("categoryname"));
+		} catch (SQLException e) {
+		}
+		
+		try {
+			count = rs.getInt("count");
+		} catch (SQLException e) {
+		}
+		
+		try {
+			rentalRange = rs.getInt("rentalrange");
+		} catch (SQLException e) {
+		}
+		
+		return new Book(bookNo, bookTitle, isRented, bookCategory, count, rentalRange);
+	}
+	
 	public void rollbackUtil(Connection con) {
 		try {
 			con.rollback();

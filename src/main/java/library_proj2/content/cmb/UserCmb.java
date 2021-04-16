@@ -41,7 +41,7 @@ public class UserCmb extends JPanel implements ActionListener {
 		
 		if (delimiter == 1) {
 			lblUser = new JLabel("빠른회원검색 :");
-		} else if(delimiter == 2) {
+		} else if((delimiter == 2 || delimiter == 3)) {
 			lblUser = new JLabel("검색방법:");
 		}
 		lblUser.setHorizontalAlignment(SwingConstants.TRAILING);

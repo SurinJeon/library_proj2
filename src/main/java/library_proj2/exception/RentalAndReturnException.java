@@ -1,14 +1,14 @@
 package library_proj2.exception;
 
 @SuppressWarnings("serial")
-public class RentalException extends RuntimeException {
+public class RentalAndReturnException extends RuntimeException {
 
-	public RentalException() {
+	public RentalAndReturnException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public RentalException(String message) {
+	public RentalAndReturnException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
