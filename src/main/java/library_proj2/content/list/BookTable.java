@@ -35,6 +35,7 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 	private ReturnService returnService;
 	private BookDetail pBookDetail;
 	private int delimiter;
+	private BookTable pBookListMain;
 	
 	public BookTable() {
 	}
@@ -165,8 +166,10 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 				frame.getpBookList().setList();
 				
 				BookTable bookPanel = frame.getpBookList();
-
+				
+				frame.setpBookListMain(this);
 				frame.setVisible(true);
+				
 				this.delimiter = 1; // 다시 목록 계속 더블클릭 할 수 있도록
 			} else{
 				throw new NotAvailableException("대출할 수 없는 도서입니다.");

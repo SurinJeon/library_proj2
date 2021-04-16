@@ -39,6 +39,7 @@ public class RentalPage extends JFrame implements ActionListener {
 	private UserCmb pUserCmb;
 	private BookCmb pBookCmb;
 	private BookTable pBookList;
+	private BookTable pBookListMain;
 	
 	public RentalPage() {
 		rentalService = new RentalService();
@@ -155,13 +156,13 @@ public class RentalPage extends JFrame implements ActionListener {
 		}
 		
 		JOptionPane.showMessageDialog(null, "대여가 완료되었습니다.");
-		pBookList.setMainService(mainService);
-		pBookList.setRentalService(rentalService);
+		pBookListMain.setMainService(mainService);
+		pBookListMain.setRentalService(rentalService);
+		pBookListMain.loadData();
 		pBookList.loadData();
 		} catch (RentalException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
 		} finally {
-			pUserList.getTable().setRowSelectionInterval(-1, -1);
 			pUserDetail.clearTf();
 			pBookDetail.clearTf();
 		}
@@ -190,6 +191,12 @@ public class RentalPage extends JFrame implements ActionListener {
 	}
 	public void setpUserDetail(UserDetail pUserDetail) {
 		this.pUserDetail = pUserDetail;
+	}
+	public BookTable getpBookListMain() {
+		return pBookListMain;
+	}
+	public void setpBookListMain(BookTable pBookListMain) {
+		this.pBookListMain = pBookListMain;
 	}
 	
 }
