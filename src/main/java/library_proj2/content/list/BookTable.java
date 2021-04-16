@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
@@ -19,6 +20,7 @@ import library_proj2.dto.Book;
 import library_proj2.dto.BookCount;
 import library_proj2.dto.RentalStatus;
 import library_proj2.dto.User;
+import library_proj2.exception.NotAvailableException;
 import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
 import library_proj2.service.ReturnService;
@@ -89,10 +91,13 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 				((Book) b).getIsRented() == 1 ? "대여가능" : "대여불가"
 				};
 		} else if(b instanceof BookCount) {
+			int size = rentalService.searchByBookNo(new Book(((BookCount) b).getBookNo())).size();
 			return new Object[] {
 				((BookCount) b).getBookNo(),
 				((BookCount) b).getBookTitle(),
-				((BookCount) b).getCanRent() > 0 ? "대여가능" : "대여불가"
+				((BookCount) b).getCanRent() > 0 ?
+						"대여 가능 권수" + "(" + ((BookCount) b).getCanRent() + ")" + "/" + "총 권수" + "(" + size + ")"
+						: "대여불가"
 					};
 		}
 		return null;
@@ -124,7 +129,7 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 			if (isRented.equals("대여불가")) {
 				setBackground(Color.red);
 			} else {
-				setBackground(Color.white);
+				setBackground(Color.green);
 			}
 			
 			setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,62 +147,43 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
-		if(delimiter == 1 && e.getClickCount() == 2) {
-			JTable table = (JTable)e.getSource();
+		try {
+		if (delimiter == 1 && e.getClickCount() == 2) {
+			JTable table = (JTable) e.getSource();
 			int idx = table.getSelectedRow();
-			
-			String bookNo = (String)table.getValueAt(idx, 0);
-			
-			Book bookDetail = rentalService.searchByBookNo(new Book(bookNo)).get(0);
-			
-			
-			if (bookDetail != null && bookDetail.getIsRented() != 0) { // 대여
-				RentalPage frame = new RentalPage();
 
-				frame.setpBookList(this);
+			String bookNo = (String) table.getValueAt(idx, 0);
+
+			BookCount selectBook = mainService.searchByBookNo(new Book(bookNo)).get(0); 
+			if (selectBook != null && selectBook.getCanRent() > 0) { // 대여
+				RentalPage frame = new RentalPage();
+				
+				frame.getpBookList().setDelimiter(2); // rentalpage로 넘기고 delimiter 설정
+				
+				List<Book> bookList= rentalService.searchByBookNo(new Book(bookNo));
+				frame.getpBookList().setBookList(bookList);
+				frame.getpBookList().setList();
+				
 				BookTable bookPanel = frame.getpBookList();
 
-				int tableIdx = 0;
-				for (int i = 0; i < bookPanel.getList().size(); i++) {
-					if (bookPanel.table.getValueAt(i, 0).equals(bookNo)) {
-						tableIdx = i;
-						break;
-					}
-				}
-				bookPanel.table.setRowSelectionInterval(tableIdx, tableIdx);
-				bookPanel.table.scrollRectToVisible(new Rectangle(bookPanel.table.getCellRect(tableIdx, 0, true)));
-				
-				frame.getpBookDetail().setBook(bookDetail);
-				
 				frame.setVisible(true);
-			} else{ // 반납
-				List<RentalStatus> user = mainService.mainToReturn(new Book(bookNo), null);
-				
-				ReturnPage frame = new ReturnPage();
-				frame.setpBookList(this);
-				
-//				UserTable userPanel = frame.getpUserList();
-//				int tableIdx = 0;
-//				for (int i = 0; i < userPanel.getList().size(); i++) {
-//					if (userPanel.table.getValueAt(i, 0) == user.get(0).getUserNo()) {
-//						tableIdx = i;
-//						break;
-//					}
-//				}
-//				userPanel.table.setRowSelectionInterval(tableIdx, tableIdx);
-//				userPanel.table.scrollRectToVisible(new Rectangle(userPanel.table.getCellRect(tableIdx, 0, true)));
-				
-				User userForDetail = mainService.searchByUserNo(user.get(0).getUserNo()).get(0);
-				
-				frame.getpUserDetail().setUser(userForDetail);
-				
-				// bookRentalDatail에 값 채우기
-				frame.getpBookDetail().setBook(bookDetail);
-				
-				frame.setVisible(true);
+				this.delimiter = 1; // 다시 목록 계속 더블클릭 할 수 있도록
+			} else{
+				throw new NotAvailableException("대출할 수 없는 도서입니다.");
 			}
+		} else if(delimiter == 2 && e.getClickCount() == 1) {
+			JTable table = (JTable) e.getSource();
+			int idx = table.getSelectedRow();
+
+			String bookNo = (String) table.getValueAt(idx, 0);
+			
+			Book bookDetail = rentalService.bookDetail(new Book(bookNo));
+			pBookDetail.setBook(bookDetail);
 		}
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		}
+	
 	}
 
 	@Override

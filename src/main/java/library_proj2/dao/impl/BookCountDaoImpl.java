@@ -23,7 +23,7 @@ public class BookCountDaoImpl implements BookCountDao {
 	private BookCountDaoImpl() {};
 	
 	private BookCount getBookCount(ResultSet rs) throws SQLException {
-		String bookNo = rs.getString("bookno");
+		String bookNo = rs.getString("left(bookno, 5)");
 		String bookTitle = rs.getString("booktitle");
 		int canRent = rs.getInt("canRent");
 		return new BookCount(bookNo, bookTitle, canRent);
@@ -31,7 +31,7 @@ public class BookCountDaoImpl implements BookCountDao {
 	
 	@Override
 	public List<BookCount> selectBookCount() {
-		String sql = "select left(bookno, 5) as bookno, booktitle, count(case when isRented = 1 then 1 end) as canRent "
+		String sql = "select left(bookno, 5), booktitle, count(case when isRented = 1 then 1 end) as canRent "
 				+ "from book group by left(bookno, 5)";
 		try(Connection con = JdbcUtil.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);

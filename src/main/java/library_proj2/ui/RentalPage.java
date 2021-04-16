@@ -36,14 +36,19 @@ public class RentalPage extends JFrame implements ActionListener {
 	private UserDetail pUserDetail;
 	private BookDetail pBookDetail;
 	private JButton btnRent;
-	private UserCmb pCmbuser;
-	private BookCmb pCmbBook;
+	private UserCmb pUserCmb;
+	private BookCmb pBookCmb;
 	private BookTable pBookList;
 	
 	public RentalPage() {
 		rentalService = new RentalService();
 		mainService = new MainService();
 		initialize();
+		pUserCmb.setpUserList(pUserList);
+		pBookCmb.setpBookList(pBookList);
+		
+		pUserList.setpUserDetail(pUserDetail);
+		pBookList.setpBookDetail(pBookDetail);
 	}
 	private void initialize() {
 		setTitle("대출화면");
@@ -62,17 +67,17 @@ public class RentalPage extends JFrame implements ActionListener {
 		pCenter.add(pSearch1);
 		pSearch1.setLayout(new BorderLayout(0, 0));
 		
-		pCmbuser = new UserCmb(1);
-		pCmbuser.setService(mainService);
-		pSearch1.add(pCmbuser, BorderLayout.NORTH);
+		pUserCmb = new UserCmb(2);
+		pUserCmb.setService(mainService);
+		pSearch1.add(pUserCmb, BorderLayout.NORTH);
 		
-		pUserList = pCmbuser.getpUserList();
+		pUserList = new UserTable(2);
 		pUserList.setService(mainService);
 		pUserList.loadData();
 		pSearch1.add(pUserList, BorderLayout.CENTER);
 		pUserList.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		
-		pUserDetail = pUserList.getpUserDetail();
+		pUserDetail = new UserDetail();
 		pUserDetail.setBorder(new EmptyBorder(5, 0, 5, 0));
 		pCenter.add(pUserDetail);
 		
@@ -80,18 +85,18 @@ public class RentalPage extends JFrame implements ActionListener {
 		pCenter.add(pSearch2);
 		pSearch2.setLayout(new BorderLayout(0, 0));
 		
-		pCmbBook = new BookCmb(2);
-		pCmbBook.setMainService(mainService);
-		pCmbBook.setRentalService(rentalService);
-		pSearch2.add(pCmbBook, BorderLayout.NORTH);
+		pBookCmb = new BookCmb(2);
+		pBookCmb.setMainService(mainService);
+		pBookCmb.setRentalService(rentalService);
+		pSearch2.add(pBookCmb, BorderLayout.NORTH);
 		
-		pBookList = pCmbBook.getpBookList();
+		pBookList = new BookTable(2);
 		pBookList.setMainService(mainService);
 		pBookList.setRentalService(rentalService);
 		pBookList.loadData();
 		pSearch2.add(pBookList, BorderLayout.CENTER);
 		
-		pBookDetail = pBookList.getpBookDetail();
+		pBookDetail = new BookDetail();
 		pBookDetail.setBorder(new EmptyBorder(5, 0, 5, 0));
 		pCenter.add(pBookDetail);
 		
@@ -131,18 +136,15 @@ public class RentalPage extends JFrame implements ActionListener {
 	}
 	
 	protected void actionPerformedBtnRent(ActionEvent e){
-		btnRent.setEnabled(true);
-		System.out.println(pUserDetail.getUser());
 		User user = pUserDetail.getUser();
 		Book book = pBookDetail.getBook();
-		System.out.println(book);
+		
 		try {
 		if(user != null && book != null) {
 			System.out.println(book.getIsRented());
 			if (book.getIsRented() == 0) {
 				throw new RentalException("이미 대출된 도서입니다.");
 			}
-			btnRent.setEnabled(true);
 			rentalService.transRental(user, book);
 		} else {
 			if(user == null) {
@@ -153,13 +155,13 @@ public class RentalPage extends JFrame implements ActionListener {
 		}
 		
 		JOptionPane.showMessageDialog(null, "대여가 완료되었습니다.");
-		
 		pBookList.setMainService(mainService);
 		pBookList.setRentalService(rentalService);
 		pBookList.loadData();
 		} catch (RentalException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
 		} finally {
+			pUserList.getTable().setRowSelectionInterval(-1, -1);
 			pUserDetail.clearTf();
 			pBookDetail.clearTf();
 		}

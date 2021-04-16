@@ -28,6 +28,8 @@ public class MainPage2 extends JFrame {
 	private RentalService rentalService;
 	private UserCmb pUserCmb;
 	private UserTable pUserList;
+	private BookCmb pBookCmb;
+	private BookTable pBookList;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -47,6 +49,7 @@ public class MainPage2 extends JFrame {
 		rentalService = new RentalService();
 		initialize();
 		pUserCmb.setpUserList(pUserList);
+		pBookCmb.setpBookList(pBookList);
 	}
 	
 	private void initialize() {
@@ -98,10 +101,15 @@ public class MainPage2 extends JFrame {
 		tabbedPane.addTab("도서로 검색", null, pSecond, null);
 		pSecond.setLayout(new BorderLayout(0, 0));
 		
-		BookCmb pBookCmb = new BookCmb(1);
+		pBookCmb = new BookCmb(1);
+		pBookCmb.setMainService(mainService);
+		pBookCmb.setRentalService(rentalService);
 		pSecond.add(pBookCmb, BorderLayout.NORTH);
 		
-		BookTable pBookList = new BookTable();
+		pBookList = new BookTable(1);
+		pBookList.setMainService(mainService);
+		pBookList.setRentalService(rentalService);
+		pBookList.loadData();
 		pSecond.add(pBookList, BorderLayout.CENTER);
 		
 		JPanel pBtn = new JPanel();

@@ -36,7 +36,7 @@ public class BookCmb extends JPanel implements ActionListener {
 	private JLabel lblSearchBook;
 
 	public BookCmb(int delimiter) {
-		pBookList = new BookTable(delimiter);
+		this.delimiter = delimiter;
 		lblSearchBook = new JLabel();
 		initialize(delimiter);
 		cmbBook.setSelectedIndex(-1);
@@ -143,7 +143,7 @@ public class BookCmb extends JPanel implements ActionListener {
 				list = mainService.searchByBookTitle(new Book(null, text));
 				break;
 			case "도서분류":
-				list = mainService.searchByBookNo(new Book(new BookCategory(Integer.parseInt(tfBook.getText()))));
+				list = mainService.searchByBookCategory(new BookCategory(tfBook.getText()));
 				break;
 			}
 			return list;

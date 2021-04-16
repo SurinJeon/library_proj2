@@ -32,6 +32,7 @@ public class UserCmb extends JPanel implements ActionListener {
 	private int delimiter;
 
 	public UserCmb(int delimiter) {
+		this.delimiter = delimiter;
 		initialize(delimiter);
 		cmbUser.setSelectedIndex(-1);
 	}
@@ -60,6 +61,7 @@ public class UserCmb extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("delimiter >> " + delimiter);
 		if (e.getSource() == btnSearch) {
 			actionPerformedBtnSearch(e);
 		}
