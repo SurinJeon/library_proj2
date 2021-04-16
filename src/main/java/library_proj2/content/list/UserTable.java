@@ -67,7 +67,6 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 	
 	public void setList(List<User> list) {
 		this.list = list;
-		System.out.println("setList >> " + list);
 	}
 
 	@Override

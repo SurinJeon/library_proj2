@@ -46,9 +46,9 @@ public class MainPage2 extends JFrame {
 		mainService = new MainService();
 		rentalService = new RentalService();
 		initialize();
-		
-		System.out.println("constructor >> " + pUserList.getList());
+		pUserCmb.setpUserList(pUserList);
 	}
+	
 	private void initialize() {
 		setTitle("메인화면");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +62,7 @@ public class MainPage2 extends JFrame {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel pFirst = new JPanel();
-		tabbedPane.addTab("New tab", null, pFirst, null);
+		tabbedPane.addTab("회원으로 검색", null, pFirst, null);
 		pFirst.setLayout(new BoxLayout(pFirst, BoxLayout.Y_AXIS));
 		
 		JPanel pUser = new JPanel();
@@ -75,8 +75,6 @@ public class MainPage2 extends JFrame {
 		
 		pUserList = new UserTable(1);
 		pUserList.setService(mainService);
-		pUserCmb.setList(pUserList.getList());
-		System.out.println("init >> " + pUserList.getList());
 		pUserList.loadData();
 		pUser.add(pUserList, BorderLayout.CENTER);
 		
@@ -92,12 +90,12 @@ public class MainPage2 extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		pRental.add(pText, BorderLayout.NORTH);
 		
-		JLabel label = new JLabel("   대여 도서 목록");
+		JLabel label = new JLabel("대여 도서 목록");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		pText.add(label);
 		
 		JPanel pSecond = new JPanel();
-		tabbedPane.addTab("New tab", null, pSecond, null);
+		tabbedPane.addTab("도서로 검색", null, pSecond, null);
 		pSecond.setLayout(new BorderLayout(0, 0));
 		
 		BookCmb pBookCmb = new BookCmb(1);
