@@ -104,22 +104,22 @@ public class MainPage2 extends JFrame {
 		BookTable pBookList = new BookTable();
 		pSecond.add(pBookList, BorderLayout.CENTER);
 		
-		JPanel panel_10 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_10.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		contentPane.add(panel_10, BorderLayout.NORTH);
+		JPanel pBtn = new JPanel();
+		FlowLayout fl_pBtn = (FlowLayout) pBtn.getLayout();
+		fl_pBtn.setAlignment(FlowLayout.LEFT);
+		contentPane.add(pBtn, BorderLayout.NORTH);
 		
 		JButton btnRental = new JButton("대여하기");
-		panel_10.add(btnRental);
+		pBtn.add(btnRental);
 		
 		JButton btnReturn = new JButton("반납하기");
-		panel_10.add(btnReturn);
+		pBtn.add(btnReturn);
 		
 		JButton btnUser = new JButton("회원관리");
-		panel_10.add(btnUser);
+		pBtn.add(btnUser);
 		
 		JButton btnBook = new JButton("도서관리");
-		panel_10.add(btnBook);
+		pBtn.add(btnBook);
 	}
 
 }
