@@ -27,12 +27,12 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 	private BookDetail pBookDetail;
 	private int delimiter;
 	
+	
 	public RentalTable() {
 	}
 
 	public RentalTable(int delimiter) {
 		this.delimiter = delimiter;
-		pBookDetail = new BookDetail();
 		table.addMouseListener(this);
 	}
 
@@ -125,10 +125,8 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			frame.getpRentalList().table.setRowSelectionInterval(idxRs, idxRs);
 			
 			frame.setpBookListMain(pBookList);
-//			frame.setpRentalList(p);
 			frame.setVisible(true);
 			
-			//회원/도서목록 select되게 해+야함
 		} else if(delimiter == 3 && e.getClickCount() == 1){ // Return frame에서 쓰임
 			
 			JTable table = (JTable)e.getSource();

@@ -43,7 +43,6 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 	public BookTable(int delimiter) {
 		this.delimiter = delimiter;
 		table.addMouseListener(this);
-		pBookDetail = new BookDetail();
 	}
 
 	public void setMainService(MainService mainService) {

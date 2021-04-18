@@ -27,6 +27,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 	private BookTable pBookList;
 	private UserDetail pUserDetail;
 	private int delimiter;
+	private BookTable pBookListMain;
 	
 	public UserTable() {
 	}
@@ -82,7 +83,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			RentalPage frame = new RentalPage();
 			frame.getpUserDetail().setUser(userList.get(0));
 			
-			frame.setpBookList(pBookList);
+			frame.setpBookListMain(pBookListMain);
 			frame.setVisible(true);
 			
 			List<User> searchUser = frame.getpUserList().getList()
@@ -175,6 +176,14 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 
 	public void setDelimiter(int delimiter) {
 		this.delimiter = delimiter;
+	}
+
+	public BookTable getpBookListMain() {
+		return pBookListMain;
+	}
+
+	public void setpBookListMain(BookTable pBookListMain) {
+		this.pBookListMain = pBookListMain;
 	}
 	
 }

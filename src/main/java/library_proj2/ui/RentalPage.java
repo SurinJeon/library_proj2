@@ -49,6 +49,7 @@ public class RentalPage extends JFrame implements ActionListener {
 		pBookCmb.setpBookList(pBookList);
 		
 		pUserList.setpUserDetail(pUserDetail);
+		pUserList.setpBookList(pBookList);
 		pBookList.setpBookDetail(pBookDetail);
 	}
 	private void initialize() {
@@ -160,6 +161,7 @@ public class RentalPage extends JFrame implements ActionListener {
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
 			pBookList.loadData();
+			pUserList.loadData();
 		} catch (RentalAndReturnException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
 		} finally {

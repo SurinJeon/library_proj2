@@ -57,6 +57,7 @@ public class MainPage2 extends JFrame {
 		pUserCmb.setpUserList(pUserList);
 		pBookCmb.setpBookList(pBookList);
 		
+		pUserList.setpBookListMain(pBookList);
 		pUserList.setpRentalList(pRentalList);
 		
 	}

@@ -145,6 +145,7 @@ public class ReturnPage extends JFrame implements ActionListener {
 				}
 			}
 			JOptionPane.showMessageDialog(null, "반납이 완료되었습니다.");
+			pRentalList.setpBookList(pBookList);
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
