@@ -27,7 +27,6 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 	private BookDetail pBookDetail;
 	private int delimiter;
 	
-	
 	public RentalTable() {
 	}
 
@@ -106,6 +105,8 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			frame.getpRentalList().setList(list);
 			frame.getpRentalList().setList();
 			
+			frame.getpRentalList().setDelimiter(3);
+			frame.getpUserList().setDelimiter(3);
 			RentalStatus rental = mainService.mainToReturn(null, new User(userNo)).get(0);
 			List<RentalStatus> searchRentalList= frame.getpRentalList().getList();
 			
@@ -125,8 +126,10 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			frame.getpRentalList().table.setRowSelectionInterval(idxRs, idxRs);
 			
 			frame.setpBookListMain(pBookList);
+			frame.setpRentalListMain(this);
 			frame.setVisible(true);
 			
+			this.delimiter = 1;
 		} else if(delimiter == 3 && e.getClickCount() == 1){ // Return frame에서 쓰임
 			
 			JTable table = (JTable)e.getSource();

@@ -96,7 +96,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 		}
 		
 		
-		if(delimiter == 1 && e.getClickCount() == 1) {
+		if((delimiter == 1 || delimiter == 3) && e.getClickCount() == 1) {
 			try {
 				List<RentalStatus> rentList = new ArrayList<RentalStatus>();
 				JTable table = (JTable)e.getSource();

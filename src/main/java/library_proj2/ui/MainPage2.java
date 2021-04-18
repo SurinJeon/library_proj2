@@ -3,6 +3,8 @@ package library_proj2.ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,7 +24,7 @@ import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
 import library_proj2.service.ReturnService;
 
-public class MainPage2 extends JFrame {
+public class MainPage2 extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private MainService mainService;
@@ -33,19 +35,10 @@ public class MainPage2 extends JFrame {
 	private BookCmb pBookCmb;
 	private BookTable pBookList;
 	private RentalTable pRentalList;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainPage2 frame = new MainPage2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JButton btnRental;
+	private JButton btnReturn;
+	private JButton btnUser;
+	private JButton btnBook;
 
 	public MainPage2() {
 		mainService = new MainService();
@@ -59,6 +52,8 @@ public class MainPage2 extends JFrame {
 		
 		pUserList.setpBookListMain(pBookList);
 		pUserList.setpRentalList(pRentalList);
+		
+		pRentalList.setpBookList(pBookList);
 		
 	}
 	
@@ -129,17 +124,54 @@ public class MainPage2 extends JFrame {
 		fl_pBtn.setAlignment(FlowLayout.LEFT);
 		contentPane.add(pBtn, BorderLayout.NORTH);
 		
-		JButton btnRental = new JButton("대여하기");
+		btnRental = new JButton("대여하기");
+		btnRental.addActionListener(this);
 		pBtn.add(btnRental);
 		
-		JButton btnReturn = new JButton("반납하기");
+		btnReturn = new JButton("반납하기");
+		btnReturn.addActionListener(this);
 		pBtn.add(btnReturn);
 		
-		JButton btnUser = new JButton("회원관리");
+		btnUser = new JButton("회원관리");
+		btnUser.addActionListener(this);
 		pBtn.add(btnUser);
 		
-		JButton btnBook = new JButton("도서관리");
+		btnBook = new JButton("도서관리");
+		btnBook.addActionListener(this);
 		pBtn.add(btnBook);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRental) {
+			actionPerformedBtnRental(e);
+		}
+		if (e.getSource() == btnReturn) {
+			actionPerformedBtnReturn(e);
+		}
+		if (e.getSource() == btnUser) {
+			actionPerformedBtnUser(e);
+		}
+		if (e.getSource() == btnBook) {
+			actionPerformedBtnBook(e);
+		}
+	}
+	
+	protected void actionPerformedBtnRental(ActionEvent e) {
+		RentalPage frame = new RentalPage();
+		frame.setVisible(true);
+	}
+	
+	protected void actionPerformedBtnReturn(ActionEvent e) {
+		ReturnPage frame = new ReturnPage();
+		frame.setVisible(true);
+	}
+	
+	protected void actionPerformedBtnUser(ActionEvent e) {
+		/*작성필요*/
+	}
+	
+	protected void actionPerformedBtnBook(ActionEvent e) {
+		/*작성필요*/
 	}
 
 }

@@ -43,6 +43,7 @@ public class ReturnPage extends JFrame implements ActionListener {
 	private BookTable pBookList;
 	private RentalTable pRentalList;
 	private BookTable pBookListMain;
+	private RentalTable pRentalListMain;
 	
 	public ReturnPage() {
 		mainService = new MainService();
@@ -50,7 +51,10 @@ public class ReturnPage extends JFrame implements ActionListener {
 		rentalService = new RentalService();
 		initialize();
 		
+		
 		pUserList.setpRentalList(pRentalList);
+		
+		pRentalList.setpBookList(pBookList);
 		pRentalList.setpBookDetail(pBookDetail);
 		
 	}
@@ -145,13 +149,13 @@ public class ReturnPage extends JFrame implements ActionListener {
 				}
 			}
 			JOptionPane.showMessageDialog(null, "반납이 완료되었습니다.");
-			pRentalList.setpBookList(pBookList);
+			
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
+			pRentalListMain.loadData();
 			pBookList.loadData();
-			pRentalList.loadData();
-
+			pUserList.loadData();
 		} catch (Exception e1) {
 			e1.getStackTrace();
 		} finally {
@@ -199,8 +203,14 @@ public class ReturnPage extends JFrame implements ActionListener {
 	}
 	public void setpBookListMain(BookTable pBookListMain) {
 		this.pBookListMain = pBookListMain;
-	} 
-	
+	}
+	public RentalTable getpRentalListMain() {
+		return pRentalListMain;
+	}
+	public void setpRentalListMain(RentalTable pRentalListMain) {
+		this.pRentalListMain = pRentalListMain;
+	}
+
 	
 }
 
