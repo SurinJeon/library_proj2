@@ -137,9 +137,9 @@ public class RentalStatusDaoImpl implements RentalStatusDao {
 
 	@Override
 	public int updateRentalStatusLogIn() {
-		String sql = "update rentalstatus r left join book b on r.bookno = b.bookno left join user u on r.userno = u.userno"
-				+ " set r.delaydate = curdate() - (r.rentaldate + b.rentalrange)"
-				+ " where r.userreturndate is null";
+		String sql = "update rentalstatus r left join book b on r.bookno = b.bookno left join user u on r.userno = u.userno "
+				+ "set r.delaydate = datediff(curdate(),date(r.rentaldate + b.rentalrange)) "
+				+ "where r.userreturndate is null";
 
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			return pstmt.executeUpdate();
