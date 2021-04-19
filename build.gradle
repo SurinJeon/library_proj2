@@ -23,6 +23,10 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
+    
+    // https://mvnrepository.com/artifact/com.toedter/jcalendar
+	implementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
+    
 }
 
 jar { 

@@ -104,7 +104,7 @@ public class MainPage extends JFrame implements ActionListener {
 
 		pRentalList = pUserList.getpRentalList();
 		pRentalList.setMainService(mainService);
-		pRentalList.setRentalService(rentalService);
+//		pRentalList.setRentalService(rentalService);
 		contentPane.add(pRentalList, BorderLayout.SOUTH);
 		
 		pUserList.setpBookList(pBookList);	
@@ -138,7 +138,8 @@ public class MainPage extends JFrame implements ActionListener {
 	}
 	
 	protected void actionPerformedBtnUserMng(ActionEvent e) {
-		/*작성필요*/
+		UserMngPage frame = new UserMngPage();
+		frame.setVisible(true);
 	}
 	
 	protected void actionPerformedBtnBookMng(ActionEvent e) {

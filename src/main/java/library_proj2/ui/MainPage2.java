@@ -167,7 +167,8 @@ public class MainPage2 extends JFrame implements ActionListener{
 	}
 	
 	protected void actionPerformedBtnUser(ActionEvent e) {
-		/*작성필요*/
+		UserMngPage frame = new UserMngPage();
+		frame.setVisible(true);
 	}
 	
 	protected void actionPerformedBtnBook(ActionEvent e) {
