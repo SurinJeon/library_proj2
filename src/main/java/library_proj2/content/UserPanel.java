@@ -28,15 +28,36 @@ public class UserPanel extends JPanel {
 	private JTextField tfTel;
 	private JTextField tfPhone;
 	private JTextField tfAddress;
-	private JPasswordField tfPass2;
-	private JPasswordField tfPass1;
+	private JPasswordField pfPass;
 	private JDateChooser dateChooser;
-	private JLabel lblCheck;
+//	private String id;
+//	private String pass;
+	
+//	public String getId() {
+//		return id;
+//	}
+//
+//	public void setId(String id) {
+//		this.id = id;
+//	}
+//
+//	public String getPass() {
+//		return pass;
+//	}
+//
+//	public void setPass(String pass) {
+//		this.pass = pass;
+//	}
+	
+	public JPasswordField getPfPass() {
+		return pfPass;
+	}
 	
 	public UserPanel() {
 		initialize();
 	}
-	
+
+
 	private void initialize() {
 		setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -99,24 +120,8 @@ public class UserPanel extends JPanel {
 		lblPass.setHorizontalAlignment(SwingConstants.TRAILING);
 		add(lblPass);
 		
-		tfPass1 = new JPasswordField();
-		add(tfPass1);
-		
-		JPanel panel = new JPanel();
-		add(panel);
-		
-		tfPass2 = new JPasswordField();
-		tfPass2.getDocument().addDocumentListener(listener);
-		add(tfPass2);
-		
-		JPanel panel_1 = new JPanel();
-		add(panel_1);
-		
-		lblCheck = new JLabel("");
-		lblCheck.setFont(new Font("굴림", Font.BOLD, 12));
-		lblCheck.setForeground(Color.RED);
-		lblCheck.setHorizontalAlignment(SwingConstants.CENTER);
-		add(lblCheck);
+		pfPass = new JPasswordField();
+		add(pfPass);
 	}
 	
 	public void setUser(User user) {
@@ -167,33 +172,14 @@ public class UserPanel extends JPanel {
 		}
 	}
 	
-	DocumentListener listener = new DocumentListener() {
-		
-		@Override
-		public void removeUpdate(DocumentEvent e) {
-			getMessage();
-		}
-		
-		@Override
-		public void insertUpdate(DocumentEvent e) {
-			getMessage();
-		}
-		
-		@Override
-		public void changedUpdate(DocumentEvent e) {
-			getMessage();
-		}
-
-		private void getMessage() {
-			String pass1 = new String(tfPass1.getPassword());
-			String pass2 = new String(tfPass2.getPassword());
-
-			if (pass1.equals(pass2)) {
-				lblCheck.setText("일치");
-			} else {
-				lblCheck.setText("불일치");
-			}
-		}
-	};
+	public void clearTf() {
+		tfUserNo.setText("");
+		tfUserName.setText("");
+		dateChooser.setDate(null);
+		tfAccount.setText("");
+		tfTel.setText("");
+		tfPhone.setText("");
+		tfAddress.setText("");
+	}
 
 }

@@ -23,6 +23,7 @@ import library_proj2.content.list.UserTable;
 import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
 import library_proj2.service.ReturnService;
+import library_proj2.service.UserService;
 
 public class MainPage2 extends JFrame implements ActionListener{
 
@@ -30,6 +31,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	private MainService mainService;
 	private RentalService rentalService;
 	private ReturnService returnService;
+	private UserService userService;
 	private UserCmb pUserCmb;
 	private UserTable pUserList;
 	private BookCmb pBookCmb;
@@ -39,11 +41,30 @@ public class MainPage2 extends JFrame implements ActionListener{
 	private JButton btnReturn;
 	private JButton btnUser;
 	private JButton btnBook;
+	private String id;
+	private String pass;
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getPass() {
+		return pass;
+	}
 
 	public MainPage2() {
 		mainService = new MainService();
 		rentalService = new RentalService();
 		returnService = new ReturnService();
+		userService = new UserService();
 		
 		initialize();
 		
@@ -54,12 +75,14 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pUserList.setpRentalList(pRentalList);
 		
 		pRentalList.setpBookList(pBookList);
+		System.out.println("id >> " + id);
+		System.out.println("pass >> " + pass);
 		
 	}
 	
 	private void initialize() {
 		setTitle("메인화면");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -168,6 +191,10 @@ public class MainPage2 extends JFrame implements ActionListener{
 	
 	protected void actionPerformedBtnUser(ActionEvent e) {
 		UserMngPage frame = new UserMngPage();
+		frame.setService(userService);
+		frame.setpUserListMain(pUserList);
+		frame.setId(id);
+		frame.setPass(pass);
 		frame.setVisible(true);
 	}
 	

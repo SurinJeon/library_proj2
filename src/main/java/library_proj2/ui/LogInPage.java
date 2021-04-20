@@ -26,6 +26,7 @@ public class LogInPage extends JFrame implements ActionListener {
 	public LogInPage() {
 		service = new LogInService();
 		initialize();
+		
 	}
 	private void initialize() {
 		setTitle("관리자 로그인");
@@ -59,7 +60,13 @@ public class LogInPage extends JFrame implements ActionListener {
 				if(mng.getMngAccount().equals(searchMn.getMngAccount()) && mng.getPasswd().equals(searchMn.getPasswd())) {
 					service.updateDelayDate(); // 연체일 update
 					
+					System.out.println("id >> " + mng.getMngAccount());
+					System.out.println("pass >> " + mng.getPasswd());
+					
 					MainPage2 frame = new MainPage2();
+					frame.setId(mng.getMngAccount());
+					frame.setPass(mng.getPasswd());
+				
 					frame.setVisible(true);
 					dispose();
 					
