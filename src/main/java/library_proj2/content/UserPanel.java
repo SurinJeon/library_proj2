@@ -163,7 +163,7 @@ public class UserPanel extends JPanel {
 				|| tfTel.getText().trim().equals("")
 				|| tfPhone.getText().trim().equals("")
 				|| tfAddress.getText().trim().equals("")) {
-			throw new InvalidCheckException();
+//			throw new InvalidCheckException();
 		}
 	}
 	

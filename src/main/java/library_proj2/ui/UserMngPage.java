@@ -14,31 +14,12 @@ public class UserMngPage extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserMngPage frame = new UserMngPage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public UserMngPage() {
 		initialize();
 	}
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 500, 490);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -48,10 +29,10 @@ public class UserMngPage extends JFrame {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel pList = new JPanel();
-		tabbedPane.addTab("New tab", null, pList, null);
+		tabbedPane.addTab("회원목록", null, pList, null);
 		
 		JPanel pInsert = new JPanel();
-		tabbedPane.addTab("New tab", null, pInsert, null);
+		tabbedPane.addTab("회원추가", null, pInsert, null);
 		pInsert.setLayout(new BorderLayout(0, 0));
 		
 		UserPanel pDetail = new UserPanel();
@@ -60,14 +41,14 @@ public class UserMngPage extends JFrame {
 		JPanel pBtn = new JPanel();
 		pInsert.add(pBtn, BorderLayout.SOUTH);
 		
-		JButton btnNewButton = new JButton("New button");
-		pBtn.add(btnNewButton);
+		JButton btnAdd = new JButton("추가");
+		pBtn.add(btnAdd);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		pBtn.add(btnNewButton_1);
+		JButton btnClear = new JButton("삭제");
+		pBtn.add(btnClear);
 		
 		JPanel pHistory = new JPanel();
-		tabbedPane.addTab("New tab", null, pHistory, null);
+		tabbedPane.addTab("대여내역", null, pHistory, null);
 	}
 
 }
