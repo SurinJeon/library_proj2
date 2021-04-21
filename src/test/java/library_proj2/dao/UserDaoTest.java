@@ -20,6 +20,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testSelectUserByAll() {
+		System.out.println("testSelectUserByAll()");
 		List<User> userList = dao.selectUserByAll();
 		
 		Assert.assertNotNull(userList);
@@ -27,38 +28,12 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testSelectUserByNo() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSelectUserByName() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSelectUserByPhone() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSelectUserByAccount() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testInsertUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testUpdateUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDeleteUser() {
-		fail("Not yet implemented");
+	public void testNextUserNo() {
+		System.out.println("testNextUserNo()");
+		int res = dao.nextUserNo();
+		
+		Assert.assertEquals(12015, res);
+		System.out.println("res >> " + res);
 	}
 
 }

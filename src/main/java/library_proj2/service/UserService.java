@@ -16,4 +16,8 @@ public class UserService {
 	public List<User> userList(){
 		return dao.selectUserByAll();
 	}
+	
+	public int nextUserNo() {
+		return dao.nextUserNo();
+	}
 }

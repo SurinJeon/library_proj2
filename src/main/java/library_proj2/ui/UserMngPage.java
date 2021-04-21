@@ -16,6 +16,8 @@ import library_proj2.content.list.UserTable;
 import library_proj2.dto.User;
 import library_proj2.service.UserService;
 import library_proj2.content.list.UserMngTable;
+import library_proj2.content.list.UserHistoryTable;
+import library_proj2.content.cmb.HistoryCmb;
 
 public class UserMngPage extends JFrame implements ActionListener {
 
@@ -27,6 +29,9 @@ public class UserMngPage extends JFrame implements ActionListener {
 	private UserService service;
 	private UserTable pUserListMain;
 	private UserMngTable pList;
+	private JButton btnClear;
+	private HistoryCmb pCmb;
+	private UserHistoryTable pHistoryList;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -61,6 +66,14 @@ public class UserMngPage extends JFrame implements ActionListener {
 	public void setpDetail(UserPanel pDetail) {
 		this.pDetail = pDetail;
 	}
+	
+	public UserMngTable getpList() {
+		return pList;
+	}
+	public void setpList(UserMngTable pList) {
+		this.pList = pList;
+	}
+	
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 490);
@@ -73,8 +86,6 @@ public class UserMngPage extends JFrame implements ActionListener {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		pList = new UserMngTable();
-		pList.setService(service);
-		pList.loadData();
 		tabbedPane.addTab("회원목록", null, pList, null);
 		
 		JPanel pInsert = new JPanel();
@@ -91,14 +102,25 @@ public class UserMngPage extends JFrame implements ActionListener {
 		btnAdd.addActionListener(this);
 		pBtn.add(btnAdd);
 		
-		JButton btnClear = new JButton("삭제");
+		btnClear = new JButton("취소");
+		btnClear.addActionListener(this);
 		pBtn.add(btnClear);
 		
 		JPanel pHistory = new JPanel();
 		tabbedPane.addTab("대여내역", null, pHistory, null);
+		pHistory.setLayout(new BorderLayout(0, 0));
+		
+		pCmb = new HistoryCmb(4);
+		pHistory.add(pCmb, BorderLayout.NORTH);
+		
+		pHistoryList = new UserHistoryTable();
+		pHistory.add(pHistoryList, BorderLayout.CENTER);
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnClear) {
+			actionPerformedBtnClear(e);
+		}
 		if (e.getSource() == btnAdd) {
 			actionPerformedBtnAdd(e);
 		}
@@ -112,11 +134,15 @@ public class UserMngPage extends JFrame implements ActionListener {
 			
 			JOptionPane.showMessageDialog(null, "추가되었습니다.");
 			pDetail.clearTf();
+			pList.loadData();
 			pUserListMain.loadData();
 		} else {
 			JOptionPane.showMessageDialog(null, "관리자 비밀번호가 아닙니다.");
 			pDetail.clearTf();
 		}
+	}
+	protected void actionPerformedBtnClear(ActionEvent e) {
+		pDetail.clearTf();
 	}
 }
 

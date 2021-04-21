@@ -1,7 +1,5 @@
 package library_proj2.content.list;
 
-import java.util.ArrayList;
-
 import javax.swing.SwingConstants;
 
 import library_proj2.dto.User;

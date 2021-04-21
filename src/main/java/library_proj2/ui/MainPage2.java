@@ -65,8 +65,8 @@ public class MainPage2 extends JFrame implements ActionListener{
 		rentalService = new RentalService();
 		returnService = new ReturnService();
 		userService = new UserService();
-		
 		initialize();
+		
 		
 		pUserCmb.setpUserList(pUserList);
 		pBookCmb.setpBookList(pBookList);
@@ -192,7 +192,10 @@ public class MainPage2 extends JFrame implements ActionListener{
 	protected void actionPerformedBtnUser(ActionEvent e) {
 		UserMngPage frame = new UserMngPage();
 		frame.setService(userService);
+		frame.getpList().setService(userService);
+		frame.getpList().loadData();
 		frame.setpUserListMain(pUserList);
+		frame.getpDetail().getTfUserNo().setText(userService.nextUserNo() + "");
 		frame.setId(id);
 		frame.setPass(pass);
 		frame.setVisible(true);

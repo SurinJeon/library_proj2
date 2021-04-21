@@ -30,29 +30,19 @@ public class UserPanel extends JPanel {
 	private JTextField tfAddress;
 	private JPasswordField pfPass;
 	private JDateChooser dateChooser;
-//	private String id;
-//	private String pass;
-	
-//	public String getId() {
-//		return id;
-//	}
-//
-//	public void setId(String id) {
-//		this.id = id;
-//	}
-//
-//	public String getPass() {
-//		return pass;
-//	}
-//
-//	public void setPass(String pass) {
-//		this.pass = pass;
-//	}
-	
+
 	public JPasswordField getPfPass() {
 		return pfPass;
 	}
 	
+	public JTextField getTfUserNo() {
+		return tfUserNo;
+	}
+
+	public void setTfUserNo(JTextField tfUserNo) {
+		this.tfUserNo = tfUserNo;
+	}
+
 	public UserPanel() {
 		initialize();
 	}
