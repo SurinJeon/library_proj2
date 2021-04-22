@@ -17,17 +17,25 @@ import library_proj2.service.HistoryService;
 @SuppressWarnings("serial")
 public class UserHistoryTable extends AbstractCustomTable<History>{
 	private HistoryService service;
-	private List<History> list;
+//	private List<History> list;
+	private int userNo;
 	
-	public void setList(List<History> list) {
-		this.list = list;
+	
+	
+	public void setList(int userNo) {
+		this.userNo = userNo;
+		list = service.userHistory(userNo);
+	}
+
+	public void setService(HistoryService service) {
+		this.service = service;
 	}
 
 	@Override
 	protected void setAlignAndWidth() {
 		setTableCellAlign(SwingConstants.CENTER, 0, 1, 2, 3, 4, 5, 6);
-		setTableCellWidth(100, 250, 50, 100, 100, 100, 50);
-		setTableCellCondition(2);
+		setTableCellWidth(70, 250, 70, 100, 100, 100, 70);
+		setTableCellCondition(6);
 	}
 
 	@Override
@@ -46,6 +54,7 @@ public class UserHistoryTable extends AbstractCustomTable<History>{
 	@Override
 	protected void initList() {
 		list = new ArrayList<History>();
+		System.out.println("init()");
 	}
 
 	@Override
@@ -66,8 +75,10 @@ public class UserHistoryTable extends AbstractCustomTable<History>{
 				int column) {
 			setText(value == null ? "" : value.toString());
 			setOpaque(true);
-			int isDelayed = (int) table.getValueAt(row, 6);
-			if (isDelayed > 0) {
+			String isDelayed =(String)table.getValueAt(row, 6);
+			if (isDelayed.equals("")) {
+				setBackground(Color.white);
+			} else {
 				setBackground(Color.red);
 			}
 			setHorizontalAlignment(SwingConstants.CENTER);

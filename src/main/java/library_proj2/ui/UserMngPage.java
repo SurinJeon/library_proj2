@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import library_proj2.content.UserPanel;
 import library_proj2.content.list.UserTable;
 import library_proj2.dto.User;
+import library_proj2.service.HistoryService;
 import library_proj2.service.UserService;
 import library_proj2.content.list.UserMngTable;
 import library_proj2.content.list.UserHistoryTable;
@@ -26,7 +27,8 @@ public class UserMngPage extends JFrame implements ActionListener {
 	private String pass;
 	private UserPanel pDetail;
 	private JButton btnAdd;
-	private UserService service;
+	private UserService userService;
+	private HistoryService hisService;
 	private UserTable pUserListMain;
 	private UserMngTable pList;
 	private JButton btnClear;
@@ -54,10 +56,12 @@ public class UserMngPage extends JFrame implements ActionListener {
 	}
 
 	public void setService(UserService service) {
-		this.service = service;
+		this.userService = service;
 	}
 	public UserMngPage() {
+		hisService = new HistoryService();
 		initialize();
+		pCmb.setpHistoryList(pHistoryList);
 	}
 	
 	public UserPanel getpDetail() {
@@ -76,7 +80,7 @@ public class UserMngPage extends JFrame implements ActionListener {
 	
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 500, 490);
+		setBounds(100, 100, 700, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -114,6 +118,8 @@ public class UserMngPage extends JFrame implements ActionListener {
 		pHistory.add(pCmb, BorderLayout.NORTH);
 		
 		pHistoryList = new UserHistoryTable();
+		pHistoryList.setService(hisService);
+		pHistoryList.loadData();
 		pHistory.add(pHistoryList, BorderLayout.CENTER);
 	}
 
@@ -130,7 +136,7 @@ public class UserMngPage extends JFrame implements ActionListener {
 		String pass = new String(pDetail.getPfPass().getPassword());
 		if(pass.equals(getPass())) {
 			User user = pDetail.getUser();
-			service.insertUser(user);
+			userService.insertUser(user);
 			
 			JOptionPane.showMessageDialog(null, "추가되었습니다.");
 			pDetail.clearTf();

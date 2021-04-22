@@ -85,7 +85,7 @@ public class HistoryDaoImpl implements HistoryDao {
 			bookTitle = rs.getString("booktitle");
 			categoryName = rs.getString("categoryname");
 			rentalDate = rs.getDate("rentaldate");
-			returnDate = rs.getDate("date(rentaldate + rentalrange)");
+			returnDate = rs.getDate("returndate");
 			userReturnDate = rs.getDate("userreturndate");
 			delayDate = rs.getInt("delaydate");		
 		} catch (Exception e) {

@@ -25,6 +25,12 @@ public class HistoryCmb extends JPanel implements ActionListener {
 		this.tfNo = tfNo;
 	}
 	
+	public UserHistoryTable getpHistoryList() {
+		return pHistoryList;
+	}
+	public void setpHistoryList(UserHistoryTable pHistoryList) {
+		this.pHistoryList = pHistoryList;
+	}
 	public HistoryCmb() {
 	}
 	
@@ -69,6 +75,7 @@ public class HistoryCmb extends JPanel implements ActionListener {
 	}
 	protected void actionPerformedBtnSearch(ActionEvent e) {
 		int userNo = Integer.parseInt(tfNo.getText());
-		
+		pHistoryList.setList(userNo);
+		pHistoryList.setList();
 	}
 }
