@@ -153,9 +153,10 @@ public class ReturnPage extends JFrame implements ActionListener {
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
+			pRentalList.loadData();
+			pUserList.loadData();
 			pRentalListMain.loadData();
 			pBookList.loadData();
-			pUserList.loadData();
 		} catch (Exception e1) {
 			e1.getStackTrace();
 		} finally {

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import library_proj2.content.list.UserHistoryTable;
 
@@ -50,10 +51,11 @@ public class HistoryCmb extends JPanel implements ActionListener {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		
 		if(delimiter == 4) {
-			lblText.setText("회원번호");
+			lblText.setText("회원번호: ");
 		} else if(delimiter == 5) {
-			lblText.setText("도서번호");
+			lblText.setText("도서번호: ");
 		}
+		lblText.setHorizontalAlignment(SwingConstants.TRAILING);
 		add(lblText);
 		
 		tfNo = new JTextField();

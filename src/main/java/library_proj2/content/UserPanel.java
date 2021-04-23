@@ -170,6 +170,7 @@ public class UserPanel extends JPanel {
 		tfTel.setText("");
 		tfPhone.setText("");
 		tfAddress.setText("");
+		pfPass.setText("");
 	}
 
 }

@@ -28,6 +28,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 	private UserDetail pUserDetail;
 	private int delimiter;
 	private BookTable pBookListMain;
+	private UserTable pUserListMain;
 	
 	public UserTable() {
 	}
@@ -84,7 +85,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			frame.getpUserDetail().setUser(userList.get(0));
 			
 			frame.setpBookListMain(pBookListMain);
-			frame.setVisible(true);
+		
 			
 			List<User> searchUser = frame.getpUserList().getList()
 					.stream().filter(user -> user.getUserNo()==userNo)
@@ -92,7 +93,9 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			User user = searchUser.get(0);
 			int idxRent = frame.getpUserList().getList().indexOf(user);
 			frame.getpUserList().table.setRowSelectionInterval(idxRent, idxRent);
+			frame.setpUserListMain(this);
 			
+			frame.setVisible(true);
 		}
 		
 		
@@ -184,6 +187,14 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 
 	public void setpBookListMain(BookTable pBookListMain) {
 		this.pBookListMain = pBookListMain;
+	}
+
+	public UserTable getpUserListMain() {
+		return pUserListMain;
+	}
+
+	public void setpUserListMain(UserTable pUserTableMain) {
+		this.pUserListMain = pUserTableMain;
 	}
 	
 }

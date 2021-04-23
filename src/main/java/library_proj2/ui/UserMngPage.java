@@ -6,9 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import library_proj2.content.UserPanel;
@@ -34,6 +38,8 @@ public class UserMngPage extends JFrame implements ActionListener {
 	private JButton btnClear;
 	private HistoryCmb pCmb;
 	private UserHistoryTable pHistoryList;
+	private JTabbedPane tabbedPane;
+	private JPopupMenu popMenu;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -58,12 +64,7 @@ public class UserMngPage extends JFrame implements ActionListener {
 	public void setService(UserService service) {
 		this.userService = service;
 	}
-	public UserMngPage() {
-		hisService = new HistoryService();
-		initialize();
-		pCmb.setpHistoryList(pHistoryList);
-	}
-	
+
 	public UserPanel getpDetail() {
 		return pDetail;
 	}
@@ -78,6 +79,13 @@ public class UserMngPage extends JFrame implements ActionListener {
 		this.pList = pList;
 	}
 	
+	public UserMngPage() {
+		userService = new UserService();
+		hisService = new HistoryService();
+		initialize();
+		pCmb.setpHistoryList(pHistoryList);
+	}
+	
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 500);
@@ -86,10 +94,12 @@ public class UserMngPage extends JFrame implements ActionListener {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		pList = new UserMngTable();
+		pList.setService(userService);
+		pList.loadData();
 		tabbedPane.addTab("회원목록", null, pList, null);
 		
 		JPanel pInsert = new JPanel();
@@ -97,6 +107,7 @@ public class UserMngPage extends JFrame implements ActionListener {
 		pInsert.setLayout(new BorderLayout(0, 0));
 		
 		pDetail = new UserPanel();
+		pDetail.getTfUserNo().setText(userService.nextUserNo() + "");
 		pInsert.add(pDetail, BorderLayout.CENTER);
 		
 		JPanel pBtn = new JPanel();
@@ -121,6 +132,12 @@ public class UserMngPage extends JFrame implements ActionListener {
 		pHistoryList.setService(hisService);
 		pHistoryList.loadData();
 		pHistory.add(pHistoryList, BorderLayout.CENTER);
+		
+//		popMenu = new JPopupMenu();
+//		pList.setComponentPopupMenu(createPopMenu(popMenu));
+//		pDetail.setComponentPopupMenu(createPopMenu(popMenu));
+//		pHistoryList.setComponentPopupMenu(createPopMenu(popMenu));
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -130,8 +147,16 @@ public class UserMngPage extends JFrame implements ActionListener {
 		if (e.getSource() == btnAdd) {
 			actionPerformedBtnAdd(e);
 		}
+		
+		if(e.getActionCommand().equals("수정")) {
+			actionPerformedUpdateMenu(e);
+		}
+		
+		if(e.getActionCommand().equals("삭제")) {
+			actionPerformedDeleteMenu(e);
+		}
 	}
-	
+
 	protected void actionPerformedBtnAdd(ActionEvent e) {
 		String pass = new String(pDetail.getPfPass().getPassword());
 		if(pass.equals(getPass())) {
@@ -142,6 +167,7 @@ public class UserMngPage extends JFrame implements ActionListener {
 			pDetail.clearTf();
 			pList.loadData();
 			pUserListMain.loadData();
+			tabbedPane.setSelectedIndex(0);
 		} else {
 			JOptionPane.showMessageDialog(null, "관리자 비밀번호가 아닙니다.");
 			pDetail.clearTf();
@@ -150,6 +176,37 @@ public class UserMngPage extends JFrame implements ActionListener {
 	protected void actionPerformedBtnClear(ActionEvent e) {
 		pDetail.clearTf();
 	}
+	
+	
+	private void actionPerformedUpdateMenu(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void actionPerformedDeleteMenu(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public JPopupMenu   createPopMenu(/* JPopupMenu popMenu */) {
+		JPopupMenu popMenu = new JPopupMenu();
+		JMenuItem update = new JMenuItem("수정");
+		update.setHorizontalAlignment(SwingConstants.CENTER);
+		update.addActionListener(this);
+		popMenu.add(update);
+		
+		JSeparator separator = new JSeparator();
+		popMenu.add(separator);
+		
+		JMenuItem delete = new JMenuItem("삭제");
+		delete.setHorizontalAlignment(SwingConstants.CENTER);
+		delete.addActionListener(this);
+		popMenu.add(delete);
+		
+		return popMenu;
+	}
+
+	
 }
 
 

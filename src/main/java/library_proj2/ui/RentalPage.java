@@ -40,6 +40,7 @@ public class RentalPage extends JFrame implements ActionListener {
 	private BookCmb pBookCmb;
 	private BookTable pBookList;
 	private BookTable pBookListMain;
+	private UserTable pUserListMain;
 	
 	public RentalPage() {
 		rentalService = new RentalService();
@@ -160,6 +161,9 @@ public class RentalPage extends JFrame implements ActionListener {
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
+			
+			pUserListMain.loadData();
+			
 			pBookList.loadData();
 			pUserList.loadData();
 		} catch (RentalAndReturnException e1) {
@@ -200,5 +204,11 @@ public class RentalPage extends JFrame implements ActionListener {
 	public void setpBookListMain(BookTable pBookListMain) {
 		this.pBookListMain = pBookListMain;
 	}
-	
+	public UserTable getpUserListMain() {
+		return pUserListMain;
+	}
+	public void setpUserListMain(UserTable pUserListMain) {
+		this.pUserListMain = pUserListMain;
+	}
+
 }

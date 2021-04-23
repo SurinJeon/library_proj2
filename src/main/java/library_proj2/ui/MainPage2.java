@@ -1,7 +1,6 @@
 package library_proj2.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,6 +71,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pBookCmb.setpBookList(pBookList);
 		
 		pUserList.setpBookListMain(pBookList);
+		pUserList.setpUserListMain(pUserList);
 		pUserList.setpRentalList(pRentalList);
 		
 		pRentalList.setpBookList(pBookList);
@@ -190,12 +190,8 @@ public class MainPage2 extends JFrame implements ActionListener{
 	}
 	
 	protected void actionPerformedBtnUser(ActionEvent e) {
-		UserMngPage frame = new UserMngPage();
-		frame.setService(userService);
-		frame.getpList().setService(userService);
-		frame.getpList().loadData();
+		UserMngPage2 frame = new UserMngPage2();
 		frame.setpUserListMain(pUserList);
-		frame.getpDetail().getTfUserNo().setText(userService.nextUserNo() + "");
 		frame.setId(id);
 		frame.setPass(pass);
 		frame.setVisible(true);
@@ -204,5 +200,6 @@ public class MainPage2 extends JFrame implements ActionListener{
 	protected void actionPerformedBtnBook(ActionEvent e) {
 		/*작성필요*/
 	}
-
+	
+	
 }

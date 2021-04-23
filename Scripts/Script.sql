@@ -23,3 +23,9 @@ select max(userno) from user;
 select bookno, booktitle, categoryname, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where userno = 12001 order by rentalno asc;
 select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where left(bookno, 5) = '40001' order by rentalno asc;
 
+select * from rentalstatus;
+
+-- 트랜잭션... // 아직 연체하지 않았고, 
+update rentalstatus left join book b on r.bookno = b.bookno set 
+
+

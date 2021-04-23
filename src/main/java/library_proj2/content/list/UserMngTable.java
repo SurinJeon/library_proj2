@@ -3,6 +3,7 @@ package library_proj2.content.list;
 import javax.swing.SwingConstants;
 
 import library_proj2.dto.User;
+import library_proj2.exception.NotSelectedException;
 import library_proj2.service.UserService;
 
 public class UserMngTable extends AbstractCustomTable<User>{
@@ -14,7 +15,6 @@ public class UserMngTable extends AbstractCustomTable<User>{
 	}
 
 	public UserMngTable() {
-		// popupmenu달기
 	}
 
 	@Override
@@ -45,6 +45,16 @@ public class UserMngTable extends AbstractCustomTable<User>{
 	@Override
 	public String[] getColumnNames() {
 		return new String[] {"회원번호", "이름", "생년월일", "전화번호", "휴대전화", "주소"};
+	}
+
+	public User getItem() {
+		int idx = table.getSelectedRow();
+		int userNo = (int) table.getValueAt(idx, 0);
+		
+		if (idx == -1) {
+			throw new NotSelectedException();
+		}
+		return list.get(list.indexOf(new User(userNo)));
 	}
 
 }
