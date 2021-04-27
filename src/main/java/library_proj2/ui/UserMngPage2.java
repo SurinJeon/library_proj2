@@ -1,29 +1,22 @@
 package library_proj2.ui;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import library_proj2.content.UserPanel;
+import library_proj2.content.list.UserMngTable;
 import library_proj2.content.list.UserTable;
-import library_proj2.dto.User;
 import library_proj2.service.HistoryService;
 import library_proj2.service.UserService;
-import library_proj2.content.list.UserMngTable;
-import library_proj2.content.list.UserHistoryTable;
-import library_proj2.content.cmb.HistoryCmb;
-import javax.swing.BoxLayout;
 
 public class UserMngPage2 extends JFrame implements ActionListener {
 
@@ -86,9 +79,6 @@ public class UserMngPage2 extends JFrame implements ActionListener {
 		pList.loadData();
 		pList.setComponentPopupMenu(createPopMenu());
 		contentPane.add(pList);
-		
-//		pSwitch = new JPanel();
-//		contentPane.add(pSwitch);
 	}
 
 	public void actionPerformed(ActionEvent e) {
