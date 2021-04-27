@@ -26,6 +26,5 @@ select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as
 select * from rentalstatus;
 
 -- 트랜잭션... // 아직 연체하지 않았고, 
-update rentalstatus left join book b on r.bookno = b.bookno set 
 
 
