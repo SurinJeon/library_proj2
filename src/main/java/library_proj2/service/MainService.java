@@ -9,8 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 import library_proj2.dao.BookCountDao;
+import library_proj2.dao.BookDao;
 import library_proj2.dao.UserDao;
 import library_proj2.dao.impl.BookCountDaoImpl;
+import library_proj2.dao.impl.BookDaoImpl;
 import library_proj2.dao.impl.UserDaoImpl;
 import library_proj2.dto.Book;
 import library_proj2.dto.BookCategory;
@@ -22,7 +24,9 @@ import library_proj2.util.JdbcUtil;
 public class MainService {
 	UserDao daoUser = UserDaoImpl.getInstance();
 	BookCountDao daoBookCount = BookCountDaoImpl.getInstance();
-
+	BookDao daoBook = BookDaoImpl.getInstance();
+	
+	
 	public List<User> userList(){
 		return daoUser.selectUserByAll();
 	}
@@ -42,6 +46,14 @@ public class MainService {
 	public List<User> searchByUserPhone(User user) {
 		return daoUser.selectUserByPhone(user);
 	}
+	
+	public int userCount() {
+		return daoUser.userCount();
+	}
+	
+	public int canRentCount() {
+		return daoBook.canRentCount();
+	}
 
 	public List<BookCount> bookList(){
 		return daoBookCount.selectBookCount();
@@ -57,6 +69,22 @@ public class MainService {
 
 	public List<BookCount> searchByBookCategory(BookCategory bookCategory) {
 		return daoBookCount.selectBookCountByCategory(bookCategory);
+	}
+	
+	public int isDelayCount() {
+		String sql = "select count(bookno) from vw_all where isRented = 0 and delaydate > 0 and userreturndate is null";
+		try(Connection con = JdbcUtil.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				){
+			if(rs.next()) {
+				int res = rs.getInt(1);
+				return res;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	// main화면에서 사용 >> 책 더블클릭 할 때 넘어가는 용도

@@ -12,25 +12,16 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class HistoryCmb extends JPanel implements ActionListener {
+public class HistoryCmb extends JPanel{
 	private JTextField tfNo;
-	private JButton btnSearch;
 	private int delimiter;
 	private JLabel lblText;
-	private UserHistoryTable pHistoryList;
 
 	public JTextField getTfNo() {
 		return tfNo;
 	}
 	public void setTfNo(JTextField tfNo) {
 		this.tfNo = tfNo;
-	}
-	
-	public UserHistoryTable getpHistoryList() {
-		return pHistoryList;
-	}
-	public void setpHistoryList(UserHistoryTable pHistoryList) {
-		this.pHistoryList = pHistoryList;
 	}
 	public HistoryCmb() {
 	}
@@ -61,23 +52,12 @@ public class HistoryCmb extends JPanel implements ActionListener {
 		tfNo = new JTextField();
 		add(tfNo);
 		tfNo.setColumns(10);
+	
+		JPanel panel1 = new JPanel();
+		add(panel1);
 		
-		btnSearch = new JButton("검색");
-		btnSearch.addActionListener(this);
-		add(btnSearch);
-		
-		JPanel panel = new JPanel();
-		add(panel);
+		JPanel panel2 = new JPanel();
+		add(panel2);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnSearch) {
-			actionPerformedBtnSearch(e);
-		}
-	}
-	protected void actionPerformedBtnSearch(ActionEvent e) {
-		int userNo = Integer.parseInt(tfNo.getText());
-		pHistoryList.setList(userNo);
-		pHistoryList.setList();
-	}
 }

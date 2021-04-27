@@ -40,6 +40,8 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 	private JButton btnCheck;
 	private JButton btnClear;
 	private UserPanel pDetail;
+	private HistoryCmb pCmb;
+	private UserHistoryTable pHistoryList;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -177,6 +179,12 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 	}
 
 	private void actionPerformedInsertMenu(ActionEvent e) {
+		removeComp();
+		
+		if(btnCheck.getText().equals("수정")) {
+			btnCheck.setText("추가");
+		}
+		
 		pDetail = new UserPanel();
 		pDetail.getTfUserNo().setText(userService.nextUserNo() + "");
 		pDetail.getTfUserNo().setEditable(false);
@@ -186,55 +194,94 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 		
 		
 	}
+	public void removeComp() {
+		if (pDetail != null) {
+			pSwitch.remove(pDetail);
+		}
+		
+		if (pCmb != null) {
+			pSwitch.remove(pCmb);
+		}
+		
+		if(pHistoryList != null) {
+			pSwitch.remove(pHistoryList);
+		}
+	}
 
 	private void actionPerformedUpdateMenu(ActionEvent e) {
-		pDetail = new UserPanel();
-		
-		User user = pList.getItem();
-		System.out.println("user >> " + user);
-		
-		pDetail.setUser(user);
-		pDetail.getTfUserNo().setEditable(false);
-		
-		pSwitch.add(pDetail, BorderLayout.CENTER);
-		pBtn.setVisible(true);
-		this.revalidate();
-		
+		removeComp();
+
+		if (btnCheck.getText().equals("추가")) {
+			btnCheck.setText("수정");
+		}
+		try {
+			pDetail = new UserPanel();
+
+			User user = pList.getItem();
+
+			pDetail.setUser(user);
+			pDetail.getTfUserNo().setEditable(false);
+
+			pSwitch.add(pDetail, BorderLayout.CENTER);
+			pBtn.setVisible(true);
+			this.revalidate();
+
+		} catch (IndexOutOfBoundsException e1) {
+			removeComp();
+			JOptionPane.showMessageDialog(null, "회원을 선택하십시오.");
+		}
 	}
 
 	private void actionPerformedDeleteMenu(ActionEvent e) {
-		User user = pList.getItem();
-		
-		int reply = JOptionPane.showConfirmDialog(null, user.getUserName() + "(" + user.getUserNo() + ")" + "를 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
-		
-		if(reply == JOptionPane.YES_OPTION) {
-			userService.deleteUser(user);
-			JOptionPane.showMessageDialog(null, "삭제되었습니다.");
-			pUserListMain.loadData();
-			pList.loadData();
-		} else{
-			JOptionPane.showMessageDialog(null, "삭제 실패");
-			pUserListMain.loadData();
-			pList.loadData();
+		try {
+			User user = pList.getItem();
+
+			int reply = JOptionPane.showConfirmDialog(null,
+					user.getUserName() + "(" + user.getUserNo() + ")" + "를 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
+
+			if (reply == JOptionPane.YES_OPTION) {
+				userService.deleteUser(user);
+				JOptionPane.showMessageDialog(null, "삭제되었습니다.");
+				pUserListMain.loadData();
+				pList.loadData();
+			} else {
+				JOptionPane.showMessageDialog(null, "삭제 실패");
+				pUserListMain.loadData();
+				pList.loadData();
+			}
+		} catch (IndexOutOfBoundsException e1) {
+			removeComp();
+			JOptionPane.showMessageDialog(null, "회원을 선택하십시오.");
 		}
-		
 
 	}
 
 	private void actionPerformedHistoryMenu(ActionEvent e) {
-		HistoryCmb pCmb = new HistoryCmb(4);
-		User user = pList.getItem();
-		pCmb.getTfNo().setText(user.getUserNo() + "");
-		
-		UserHistoryTable pHistoryList = new UserHistoryTable();
-		pHistoryList.setService(hisService);
-		pHistoryList.loadData();
-		
-		pCmb.setpHistoryList(pHistoryList);
-		pSwitch.add(pHistoryList, BorderLayout.CENTER);
-		pSwitch.add(pCmb, BorderLayout.NORTH);
-		
-		this.revalidate();
+		try {
+			removeComp();
+
+			pBtn.setVisible(false);
+			pCmb = new HistoryCmb(4);
+
+			User user = pList.getItem();
+			pCmb.getTfNo().setText(user.getUserNo() + "");
+
+			pHistoryList = new UserHistoryTable();
+			try {
+				pHistoryList.setService(hisService);
+				pHistoryList.setList(user.getUserNo());
+				pHistoryList.setList();
+			} catch (NullPointerException e1) {
+				pHistoryList.loadData();
+			}
+			pSwitch.add(pHistoryList, BorderLayout.CENTER);
+			pSwitch.add(pCmb, BorderLayout.NORTH);
+
+			this.revalidate();
+		} catch (IndexOutOfBoundsException e1) {
+			removeComp();
+			JOptionPane.showMessageDialog(null, "회원을 선택하십시오.");
+		}
 	}
 	protected void actionPerformedBtnCheck(ActionEvent e) {
 		

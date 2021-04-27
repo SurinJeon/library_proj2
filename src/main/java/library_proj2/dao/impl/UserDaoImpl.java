@@ -242,4 +242,20 @@ public class UserDaoImpl implements UserDao {
 		return 0;
 	}
 
+	@Override
+	public int userCount() {
+		String sql = "select count(userno) from user";
+		try(Connection con = JdbcUtil.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				){
+			if(rs.next()) {
+				int res = rs.getInt(1);
+				return res;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

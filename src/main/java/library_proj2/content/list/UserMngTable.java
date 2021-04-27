@@ -54,7 +54,13 @@ public class UserMngTable extends AbstractCustomTable<User>{
 
 	public User getItem() {
 		int idx = table.getSelectedRow();
-		int userNo = (int) table.getValueAt(idx, 0);
+		int userNo = 0;
+		
+		try {
+			userNo = (int) table.getValueAt(idx, 0);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
 		
 		if (idx == -1) {
 			throw new NotSelectedException();

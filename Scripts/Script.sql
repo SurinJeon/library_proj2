@@ -25,6 +25,16 @@ select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as
 
 select * from rentalstatus;
 
--- 트랜잭션... // 아직 연체하지 않았고, 
+-- 연체도서 수
+select count(bookno) from vw_all where isRented = 0 and delaydate > 0 and userreturndate is null;
+
+-- 대출 가능 도서 수
+select count(bookno) from book where isRented = 1;
+
+-- 전체 회원 수
+select count(userno) from user;
+
+
+
 
 

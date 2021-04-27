@@ -210,5 +210,22 @@ public class BookDaoImpl implements BookDao {
 		}
 		return 0;
 	}
+	
+	@Override
+	public int canRentCount() {
+		String sql = "select count(bookno) from book where isRented = 1";
+		try(Connection con = JdbcUtil.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				){
+			if(rs.next()) {
+				int res = rs.getInt(1);
+				return res;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 }

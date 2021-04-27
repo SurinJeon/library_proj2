@@ -20,4 +20,6 @@ public interface UserDao {
 	int updateUser(User user);
 	int deleteUser(User user);
 	int nextUserNo(); /* 회원 추가 시 자동 증가하도록 */
+
+	int userCount();
 }

@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.cmb.BookCmb;
 import library_proj2.content.cmb.UserCmb;
 import library_proj2.content.list.BookTable;
@@ -23,6 +24,8 @@ import library_proj2.service.MainService;
 import library_proj2.service.RentalService;
 import library_proj2.service.ReturnService;
 import library_proj2.service.UserService;
+import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class MainPage2 extends JFrame implements ActionListener{
 
@@ -42,6 +45,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	private JButton btnBook;
 	private String id;
 	private String pass;
+	private JPanel panel;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -93,11 +97,29 @@ public class MainPage2 extends JFrame implements ActionListener{
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel pFirst = new JPanel();
-		tabbedPane.addTab("회원으로 검색", null, pFirst, null);
-		pFirst.setLayout(new BoxLayout(pFirst, BoxLayout.Y_AXIS));
+		tabbedPane.addTab("도서 대출 현황", null, pFirst, null);
+		pFirst.setLayout(new BorderLayout(0, 0));
+		
+		SummaryPanel pSummary = new SummaryPanel();
+		pSummary.setService(mainService);
+		pSummary.setSummary();
+		pFirst.add(pSummary, BorderLayout.NORTH);
+		
+		JPanel pImg = new JPanel();
+		pFirst.add(pImg, BorderLayout.CENTER);
+		pImg.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(0, 0, 673, 714);
+		lblNewLabel.setIcon(new ImageIcon("C:\\workspace_java\\library_proj2\\src\\main\\java\\library_proj2\\img\\library.jpg"));
+		pImg.add(lblNewLabel);
+		
+		JPanel pSecond = new JPanel();
+		tabbedPane.addTab("회원으로 검색", null, pSecond, null);
+		pSecond.setLayout(new BoxLayout(pSecond, BoxLayout.Y_AXIS));
 		
 		JPanel pUser = new JPanel();
-		pFirst.add(pUser);
+		pSecond.add(pUser);
 		pUser.setLayout(new BorderLayout(0, 0));
 		
 		pUserCmb = new UserCmb(1);
@@ -110,7 +132,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pUser.add(pUserList, BorderLayout.CENTER);
 		
 		JPanel pRental = new JPanel();
-		pFirst.add(pRental);
+		pSecond.add(pRental);
 		pRental.setLayout(new BorderLayout(0, 0));
 		
 		pRentalList = new RentalTable(1);
@@ -127,20 +149,20 @@ public class MainPage2 extends JFrame implements ActionListener{
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		pText.add(label);
 		
-		JPanel pSecond = new JPanel();
-		tabbedPane.addTab("도서로 검색", null, pSecond, null);
-		pSecond.setLayout(new BorderLayout(0, 0));
+		JPanel pThird = new JPanel();
+		tabbedPane.addTab("도서로 검색", null, pThird, null);
+		pThird.setLayout(new BorderLayout(0, 0));
 		
 		pBookCmb = new BookCmb(1);
 		pBookCmb.setMainService(mainService);
 		pBookCmb.setRentalService(rentalService);
-		pSecond.add(pBookCmb, BorderLayout.NORTH);
+		pThird.add(pBookCmb, BorderLayout.NORTH);
 		
 		pBookList = new BookTable(1);
 		pBookList.setMainService(mainService);
 		pBookList.setRentalService(rentalService);
 		pBookList.loadData();
-		pSecond.add(pBookList, BorderLayout.CENTER);
+		pThird.add(pBookList, BorderLayout.CENTER);
 		
 		JPanel pBtn = new JPanel();
 		FlowLayout fl_pBtn = (FlowLayout) pBtn.getLayout();
@@ -200,6 +222,4 @@ public class MainPage2 extends JFrame implements ActionListener{
 	protected void actionPerformedBtnBook(ActionEvent e) {
 		/*작성필요*/
 	}
-	
-	
 }
