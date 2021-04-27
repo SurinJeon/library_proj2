@@ -190,7 +190,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	}
 	
 	protected void actionPerformedBtnUser(ActionEvent e) {
-		UserMngPage2 frame = new UserMngPage2();
+		UserMngPage3 frame = new UserMngPage3();
 		frame.setpUserListMain(pUserList);
 		frame.setId(id);
 		frame.setPass(pass);

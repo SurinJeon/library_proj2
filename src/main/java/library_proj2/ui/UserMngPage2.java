@@ -122,8 +122,9 @@ public class UserMngPage2 extends JFrame implements ActionListener {
 		
 	}
 	
-	public JPopupMenu createPopMenu() {
+	public JPopupMenu  createPopMenu() {
 		JPopupMenu popMenu = new JPopupMenu();
+		
 		JMenuItem insert = new JMenuItem("추가");
 		insert.setHorizontalAlignment(SwingConstants.CENTER);
 		insert.addActionListener(this);

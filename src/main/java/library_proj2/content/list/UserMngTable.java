@@ -1,5 +1,6 @@
 package library_proj2.content.list;
 
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
 import library_proj2.dto.User;
@@ -12,6 +13,10 @@ public class UserMngTable extends AbstractCustomTable<User>{
 
 	public void setService(UserService service) {
 		this.service = service;
+	}
+
+	public void setPopupMenu(JPopupMenu popupMenu) {
+		table.setComponentPopupMenu(popupMenu);
 	}
 
 	public UserMngTable() {
@@ -54,7 +59,9 @@ public class UserMngTable extends AbstractCustomTable<User>{
 		if (idx == -1) {
 			throw new NotSelectedException();
 		}
-		return list.get(list.indexOf(new User(userNo)));
+		return service.searchByUserNo(new User(userNo));
+//		return list.get(list.indexOf(new User(userNo)));
 	}
+	
 
 }

@@ -13,11 +13,23 @@ public class UserService {
 		dao.insertUser(user);
 	}
 	
+	public void updateUser(User user) {
+		dao.updateUser(user);
+	}
+	
+	public void deleteUser(User user) {
+		dao.deleteUser(user);
+	}
+	
 	public List<User> userList(){
 		return dao.selectUserByAll();
 	}
 	
 	public int nextUserNo() {
 		return dao.nextUserNo();
+	}
+	
+	public User searchByUserNo(User user) {
+		return dao.selectUserByNo(user).get(0);
 	}
 }
