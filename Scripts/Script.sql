@@ -10,7 +10,9 @@ update rentalstatus r left join book b on r.bookno = b.bookno left join user u o
  set r.delaydate = datediff(curdate(),date(r.rentaldate + b.rentalrange))
  where r.userreturndate is null;
 
-select  DATEDIFF(curdate(),date(r.rentaldate + b.rentalrange))
+select date_add(r.rentaldate, interval b.rentalrange day) from rentalstatus r left join book b on r.bookno = b.bookno left join user u on r.userno = u.userno;
+
+select DATEDIFF(curdate(), date_add(r.rentaldate, interval b.rentalrange day))
 from  rentalstatus r left join book b on r.bookno = b.bookno left join user u on r.userno = u.userno
 where b.bookno = '40001-1';
 
@@ -19,6 +21,7 @@ select * from rentalstatus;
 update rentalstatus r left join book b on r.bookno = b.bookno set r.delaydate = DATEDIFF(r.userreturndate ,date(r.rentaldate + b.rentalrange)) where r.userreturndate is not null;
 
 select max(userno) from user;
+select curdate();
  
 select bookno, booktitle, categoryname, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where userno = 12001 order by rentalno asc;
 select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where left(bookno, 5) = '40001' order by rentalno asc;

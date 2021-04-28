@@ -26,11 +26,9 @@ public class HistoryDaoImpl implements HistoryDao {
 	public List<History> selectHistory(int userNo, String bookNo) {
 		String sql1 ="select rentalno, userno, username, "
 				+ "bookno, booktitle, categoryname, "
-				+ "rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate "
+				+ "rentaldate, date_add(rentaldate, interval rentalrange day) as returndate, userreturndate, delaydate "
 				+ "from vw_all ";
 		String sql2;
-		
-		Object obj;
 		
 		if(userNo != 0 && bookNo == null) { // userNo로 검색할 때
 			sql2 = "where userno = ? order by rentalno asc";
