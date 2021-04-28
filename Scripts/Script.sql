@@ -38,13 +38,20 @@ select count(bookno) from book where isRented = 1;
 select count(userno) from user;
 
 -- 최빈값
-select userno, count(*) as c from vw_all where rentaldate between date(20210401) and date(20210430) group by userno having c>1; 
+select left(bookno, 5), count(*) as c from vw_all where rentaldate between date(20210401) and date(20210430) group by left(bookno, 5) having c>0; 
 
+select bookno, count(*) as c from vw_all where rentaldate between date(20210401) and date(20210430) group by bookno having c>0; 
+
+select * from vw_all;
 select * from vw_all order by rentalno asc;
 
 
 -- 도서코드
-
 select categoryname from bookcategory where bookcategory = 1;
 select bookcategory, categoryname from bookcategory;
 
+-- 연장기능
+select userno, bookno, rentalrange * 2 from vw_all where userno = 12001;
+
+-- 블랙리스트
+select userno, case when delaydate > 0 then 1 end as 'delay' from vw_all;

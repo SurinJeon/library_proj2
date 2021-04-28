@@ -162,6 +162,16 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pBookList.loadData();
 		pThird.add(pBookList, BorderLayout.CENTER);
 		
+		JPanel pFourth = new JPanel();
+		tabbedPane.addTab("이달의 리뷰", null, pFourth, null);
+		pFourth.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pChart = new JPanel();
+		pFourth.add(pChart, BorderLayout.CENTER);
+		
+		JLabel lblText = new JLabel("이달의 도서 순위");
+		pFourth.add(lblText, BorderLayout.NORTH);
+		
 		JPanel pBtn = new JPanel();
 		FlowLayout fl_pBtn = (FlowLayout) pBtn.getLayout();
 		fl_pBtn.setAlignment(FlowLayout.LEFT);
@@ -201,11 +211,15 @@ public class MainPage2 extends JFrame implements ActionListener{
 	
 	protected void actionPerformedBtnRental(ActionEvent e) {
 		RentalPage frame = new RentalPage();
+		frame.setpBookListMain(pBookList);
+		frame.setpUserListMain(pUserList);
 		frame.setVisible(true);
 	}
 	
 	protected void actionPerformedBtnReturn(ActionEvent e) {
 		ReturnPage frame = new ReturnPage();
+		frame.setpBookListMain(pBookList);
+		frame.setpRentalListMain(pRentalList);
 		frame.setVisible(true);
 	}
 	

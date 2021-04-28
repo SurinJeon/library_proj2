@@ -125,7 +125,7 @@ public class UserDetail extends JPanel {
 		
 		tfAccount = new JTextField();
 		tfAccount.setColumns(10);
-		tfAccount.setBounds(278, 127, 116, 21);
+		tfAccount.setBounds(278, 127, 143, 21);
 		panel.add(tfAccount);
 		
 		JLabel lblText = new JLabel("대여회원상세정보");
