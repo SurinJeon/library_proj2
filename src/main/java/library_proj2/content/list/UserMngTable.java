@@ -43,7 +43,6 @@ public class UserMngTable extends AbstractCustomTable<User>{
 
 	@Override
 	protected void initList() {
-//		list = new ArrayList<User>();
 		list = service.userList();
 	}
 

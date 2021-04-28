@@ -24,7 +24,7 @@ select max(userno) from user;
 select curdate();
  
 select bookno, booktitle, categoryname, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where userno = 12001 order by rentalno asc;
-select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where left(bookno, 5) = '40001' order by rentalno asc;
+select rentalno, userno, username, rentaldate, date(rentaldate + rentalrange) as returndate, userreturndate, delaydate from vw_all where bookno = '40005-1' order by rentalno asc;
 
 select * from rentalstatus;
 
@@ -37,7 +37,14 @@ select count(bookno) from book where isRented = 1;
 -- 전체 회원 수
 select count(userno) from user;
 
+-- 최빈값
+select userno, count(*) as c from vw_all where rentaldate between date(20210401) and date(20210430) group by userno having c>1; 
+
+select * from vw_all order by rentalno asc;
 
 
+-- 도서코드
 
+select categoryname from bookcategory where bookcategory = 1;
+select bookcategory, categoryname from bookcategory;
 

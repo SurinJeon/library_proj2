@@ -1,5 +1,7 @@
 package library_proj2.dao;
 
+import java.util.List;
+
 import library_proj2.dto.BookCategory;
 
 public interface BookCategoryDao {
@@ -8,5 +10,7 @@ public interface BookCategoryDao {
 	int insertBookCategory(BookCategory bookcategory);
 	int updateBookCategory(BookCategory bookcategory);
 	int deleteBookCategory(BookCategory bookcategory);
+	String searchCategoryName(BookCategory bookcategory);
+	List<BookCategory> getCategoryNames();
 	
 }

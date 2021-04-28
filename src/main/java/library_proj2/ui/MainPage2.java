@@ -79,8 +79,6 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pUserList.setpRentalList(pRentalList);
 		
 		pRentalList.setpBookList(pBookList);
-		System.out.println("id >> " + id);
-		System.out.println("pass >> " + pass);
 		
 	}
 	
@@ -220,6 +218,10 @@ public class MainPage2 extends JFrame implements ActionListener{
 	}
 	
 	protected void actionPerformedBtnBook(ActionEvent e) {
-		/*작성필요*/
+		BookMngPage frame = new BookMngPage();
+		frame.setpBookListMain(pBookList);
+		frame.setId(id);
+		frame.setPass(pass);
+		frame.setVisible(true);
 	}
 }

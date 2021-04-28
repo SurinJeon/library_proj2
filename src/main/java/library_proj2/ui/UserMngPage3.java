@@ -25,7 +25,7 @@ import library_proj2.service.HistoryService;
 import library_proj2.service.UserService;
 
 @SuppressWarnings("serial")
-public class UserMngPage3 extends JFrame implements ActionListener{
+public class UserMngPage3 extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private String id;
@@ -42,23 +42,27 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 	private UserPanel pDetail;
 	private HistoryCmb pCmb;
 	private UserHistoryTable pHistoryList;
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
+
 	public String getPass() {
 		return pass;
 	}
+
 	public UserTable getpUserListMain() {
 		return pUserListMain;
 	}
+
 	public void setpUserListMain(UserTable pUserListMain) {
 		this.pUserListMain = pUserListMain;
 	}
@@ -66,18 +70,21 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 	public void setService(UserService service) {
 		this.userService = service;
 	}
+
 	public UserMngTable getpList() {
 		return pList;
 	}
+
 	public void setpList(UserMngTable pList) {
 		this.pList = pList;
 	}
-	
+
 	public UserMngPage3() {
 		userService = new UserService();
 		hisService = new HistoryService();
 		initialize();
 	}
+
 	private void initialize() {
 		setTitle("회원관리화면");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -86,67 +93,67 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		pContain = new JPanel();
 		contentPane.add(pContain, BorderLayout.CENTER);
 		pContain.setLayout(new GridLayout(2, 1, 0, 0));
-		
+
 		pList = new UserMngTable();
 		pList.setService(userService);
 		pList.loadData();
 		pList.setPopupMenu(createPopMenu());
 		pContain.add(pList);
-		
+
 		pSwitch = new JPanel();
 		pContain.add(pSwitch);
 		pSwitch.setLayout(new BorderLayout(0, 0));
-		
+
 		pBtn = new JPanel();
 		pSwitch.add(pBtn, BorderLayout.SOUTH);
-		
+
 		btnCheck = new JButton("추가");
 		btnCheck.addActionListener(this);
 		pBtn.add(btnCheck);
-		
+
 		btnClear = new JButton("취소");
 		btnClear.addActionListener(this);
 		pBtn.add(btnClear);
 		pBtn.setVisible(false);
-		
+
 	}
 
 	public JPopupMenu createPopMenu() {
 		JPopupMenu popMenu = new JPopupMenu();
-		
+
 		JMenuItem insert = new JMenuItem("추가");
 		insert.setHorizontalAlignment(SwingConstants.CENTER);
 		insert.addActionListener(this);
 		popMenu.add(insert);
-		
+
 		JSeparator separator1 = new JSeparator();
 		popMenu.add(separator1);
-		
+
 		JMenuItem update = new JMenuItem("수정");
 		update.setHorizontalAlignment(SwingConstants.CENTER);
 		update.addActionListener(this);
 		popMenu.add(update);
-		
+
 		JSeparator separator2 = new JSeparator();
 		popMenu.add(separator2);
-		
+
 		JMenuItem delete = new JMenuItem("삭제");
 		delete.setHorizontalAlignment(SwingConstants.CENTER);
 		delete.addActionListener(this);
 		popMenu.add(delete);
-		
+
 		JSeparator separator3 = new JSeparator();
 		popMenu.add(separator3);
-		
+
 		JMenuItem history = new JMenuItem("대여내역");
 		history.setHorizontalAlignment(SwingConstants.CENTER);
 		history.addActionListener(this);
 		popMenu.add(history);
-		
+
 		return popMenu;
 	}
 
@@ -180,32 +187,18 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 
 	private void actionPerformedInsertMenu(ActionEvent e) {
 		removeComp();
-		
-		if(btnCheck.getText().equals("수정")) {
+
+		if (btnCheck.getText().equals("수정")) {
 			btnCheck.setText("추가");
 		}
-		
+
 		pDetail = new UserPanel();
 		pDetail.getTfUserNo().setText(userService.nextUserNo() + "");
 		pDetail.getTfUserNo().setEditable(false);
 		pSwitch.add(pDetail, BorderLayout.CENTER);
 		pBtn.setVisible(true);
 		this.revalidate();
-		
-		
-	}
-	public void removeComp() {
-		if (pDetail != null) {
-			pSwitch.remove(pDetail);
-		}
-		
-		if (pCmb != null) {
-			pSwitch.remove(pCmb);
-		}
-		
-		if(pHistoryList != null) {
-			pSwitch.remove(pHistoryList);
-		}
+
 	}
 
 	private void actionPerformedUpdateMenu(ActionEvent e) {
@@ -269,7 +262,11 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 			pHistoryList = new UserHistoryTable();
 			try {
 				pHistoryList.setService(hisService);
-				pHistoryList.setList(user.getUserNo());
+				if (hisService.userHistory(user.getUserNo()) != null) {
+					pHistoryList.setList(user.getUserNo());
+				} else {
+					pHistoryList.initList();
+				}
 				pHistoryList.setList();
 			} catch (NullPointerException e1) {
 				pHistoryList.loadData();
@@ -283,39 +280,40 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(null, "회원을 선택하십시오.");
 		}
 	}
+
 	protected void actionPerformedBtnCheck(ActionEvent e) {
-		
-		if(btnCheck.getText().equals("추가")) {
+
+		if (btnCheck.getText().equals("추가")) {
 			String pass = new String(pDetail.getPfPass().getPassword());
-			if(pass.equals(getPass())) {
+			if (pass.equals(getPass())) {
 				User user = pDetail.getUser();
 				userService.insertUser(user);
-				
+
 				JOptionPane.showMessageDialog(null, "추가되었습니다.");
 				pDetail.clearTf();
 				pList.loadData();
 				pUserListMain.loadData();
-				
+
 				pDetail.getTfUserNo().setText(userService.nextUserNo() + "");
 				pDetail.getTfUserNo().setEditable(false);
 			} else {
 				JOptionPane.showMessageDialog(null, "관리자 비밀번호가 아닙니다.");
 				pDetail.clearTf();
 			}
-		} else if(btnCheck.getText().equals("수정")) {
+		} else if (btnCheck.getText().equals("수정")) {
 			String pass = new String(pDetail.getPfPass().getPassword());
-			if(pass.equals(getPass())) {
+			if (pass.equals(getPass())) {
 				User user = pDetail.getUser();
 				userService.updateUser(user);
-				
+
 				JOptionPane.showMessageDialog(null, "수정되었습니다.");
 				pDetail.clearTf();
 				pList.loadData();
 				pUserListMain.loadData();
-				
+
 				pDetail.getTfUserNo().setEditable(true);
-				pDetail.clearTf();
-				
+//				pDetail.clearTf();
+
 				btnCheck.setText("추가");
 			} else {
 				JOptionPane.showMessageDialog(null, "관리자 비밀번호가 아닙니다.");
@@ -327,13 +325,19 @@ public class UserMngPage3 extends JFrame implements ActionListener{
 	protected void actionPerformedBtnClear(ActionEvent e) {
 		pDetail.clearTf();
 	}
+
+	public void removeComp() {
+		if (pDetail != null) {
+			pSwitch.remove(pDetail);
+		}
+
+		if (pCmb != null) {
+			pSwitch.remove(pCmb);
+		}
+
+		if (pHistoryList != null) {
+			pSwitch.remove(pHistoryList);
+		}
+	}
+
 }
-
-
-
-
-
-
-
-
-

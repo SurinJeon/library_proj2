@@ -39,7 +39,29 @@ public class BookCategory {
 
 	@Override
 	public String toString() {
-		return String.format("BookCategory [%s, %s]", bookCategory, categoryName);
+		return String.format("%s(%d)", categoryName, bookCategory);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + bookCategory;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BookCategory other = (BookCategory) obj;
+		if (bookCategory != other.bookCategory)
+			return false;
+		return true;
 	}
 
 }

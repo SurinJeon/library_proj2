@@ -3,7 +3,6 @@ package library_proj2.content.list;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -14,45 +13,40 @@ import javax.swing.table.TableColumnModel;
 import library_proj2.dto.History;
 import library_proj2.service.HistoryService;
 
-@SuppressWarnings("serial")
-public class UserHistoryTable extends AbstractCustomTable<History>{
+public class BookHistoryTable extends AbstractCustomTable<History> {
 	private HistoryService service;
-//	private List<History> list;
-	private int userNo;
+	private String bookNo;
 	
-	
-	
-	public void setList(int userNo) {
-		this.userNo = userNo;
-		list = service.userHistory(userNo);
+	public void setList(String bookNo) {
+		this.bookNo = bookNo;
+		list = service.bookHistory(bookNo);
 	}
-
+	
 	public void setService(HistoryService service) {
 		this.service = service;
 	}
 
 	@Override
 	protected void setAlignAndWidth() {
-		setTableCellAlign(SwingConstants.CENTER, 0, 1, 2, 3, 4, 5, 6);
-		setTableCellWidth(70, 250, 70, 100, 100, 100, 70);
-		setTableCellCondition(6);
+		setTableCellAlign(SwingConstants.CENTER, 0, 1, 2, 3, 4, 5);
+		setTableCellWidth(70, 100, 100, 100, 100, 70);
+		setTableCellCondition(5);
 	}
 
 	@Override
 	protected Object[] toArray(History h) {
-		if(h.getBookNo() == null) {
+		if(h.getUserNo() == 0) {
 			return null;
 		}
 		
 		return new Object[] {
-				h.getBookNo(), 
-				h.getBookTitle(), 
-				h.getCategoryName(), 
-				h.getRentalDate(), 
-				h.getReturnDate(), 
-				h.getUserReturnDate() == null ? "대여중" : h.getUserReturnDate(), 
+				h.getUserNo(),
+				h.getUserName(),
+				h.getRentalDate(),
+				h.getReturnDate(),
+				h.getUserReturnDate() == null ? "대여중" : h.getUserReturnDate(),
 				h.getDelayDate() > 0 ? h.getDelayDate() + "일" : ""
-				};
+		};
 	}
 
 	@Override
@@ -62,10 +56,10 @@ public class UserHistoryTable extends AbstractCustomTable<History>{
 
 	@Override
 	public String[] getColumnNames() {
-		return new String[] {"도서번호", "도서제목", "도서구분", 
+		return new String[] {"회원번호", "회원이름",
 				"대여일", "반납기한", "반납일", "연체일수"};
 	}
-	
+
 	private class ConditionTableCellRender extends JLabel implements TableCellRenderer{
 
 		@Override
@@ -78,7 +72,7 @@ public class UserHistoryTable extends AbstractCustomTable<History>{
 				int column) {
 			setText(value == null ? "" : value.toString());
 			setOpaque(true);
-			String isDelayed =(String)table.getValueAt(row, 6);
+			String isDelayed =(String)table.getValueAt(row, 5);
 			if (isDelayed != null) {
 				if (isDelayed.equals("")) {
 					setBackground(Color.white);
@@ -99,5 +93,4 @@ public class UserHistoryTable extends AbstractCustomTable<History>{
 			tcm.getColumn(idx[i]).setCellRenderer(ctcr);
 		}
 	}
-	
 }

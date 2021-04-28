@@ -33,7 +33,7 @@ public class HistoryDaoImpl implements HistoryDao {
 		if(userNo != 0 && bookNo == null) { // userNo로 검색할 때
 			sql2 = "where userno = ? order by rentalno asc";
 		} else{
-			sql2 = "where left(bookno, 5) = ? order by rentalno asc";
+			sql2 = "where bookno = ? order by rentalno asc";
 		}
 		
 		String sql = sql1 + sql2;
