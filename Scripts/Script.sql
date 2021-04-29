@@ -83,6 +83,28 @@ select * from rentalstatus having sum(delaydate) > 100;
 
 select r.userno from rentalstatus r group by r.userno having sum(r.delaydate) > 100;
 
+-- 도서 연장
+select * from rentalstatus r;
+select * from book;
+update user set isrenew = 0 where userno = 12002;
+select userno, username, userbirth, account, tel, phone, address, isBlackList, isrenew from user;
+
+update user u left join rentalstatus r on u.userno = r.rentalno left join book b on b.bookno = r.bookno set u.isrenew = 1 where u.userno = 12002 and b.bookno = '40002-1';
+and r.delaydate < 0 and u.isrenew = 0;
+
+
+
+update user u, rentalstatus r, book b set u.isrenew = 1 where u.userno = 12002 and b.bookno = '40002-1' and r.delaydate < 0 and u.isrenew = 0;
+update user u, rentalstatus r, book b set b.rentalrange = b.rentalrange + 7 where u.userno = 12002;
+
+select * from user;
+select * from rentalstatus;
+
+
+
+
+
+
 
 
 

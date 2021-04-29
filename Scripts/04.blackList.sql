@@ -1,7 +1,7 @@
 select user(), database();
 
 show tables;
-
+select * from rentalstatus;
 desc user;
 desc rentalstatus;
 
@@ -182,3 +182,4 @@ update book
    set isRented = 0
  where bookno = '40007-1';
 
+select * from rentalstatus;
