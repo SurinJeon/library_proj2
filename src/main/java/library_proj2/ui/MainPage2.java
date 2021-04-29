@@ -170,23 +170,6 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pBookList.loadData();
 		pThird.add(pBookList, BorderLayout.CENTER);
 		
-		JPanel pFourth = new JPanel();
-		tabbedPane.addTab("블랙리스트", null, pFourth, null);
-		pFourth.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblText = new JLabel("블랙리스트 관리");
-		pFourth.add(lblText, BorderLayout.NORTH);
-		
-		JPanel pContain = new JPanel();
-		pFourth.add(pContain, BorderLayout.CENTER);
-		pContain.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		JPanel pBlackList = new JPanel();
-		pContain.add(pBlackList);
-		
-		JPanel pSwitch = new JPanel();
-		pContain.add(pSwitch);
-		
 		JPanel pBtn = new JPanel();
 		FlowLayout fl_pBtn = (FlowLayout) pBtn.getLayout();
 		fl_pBtn.setAlignment(FlowLayout.LEFT);
