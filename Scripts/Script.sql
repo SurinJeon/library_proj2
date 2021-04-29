@@ -54,4 +54,37 @@ select bookcategory, categoryname from bookcategory;
 select userno, bookno, rentalrange * 2 from vw_all where userno = 12001;
 
 -- 블랙리스트
-select userno, case when delaydate > 0 then 1 end as 'delay' from vw_all;
+select userno, username, userbirth, phone, isBlackList from user where isBlackList = 0;
+select delaydate, userno from vw_all where userno = 12001; 
+select sum(r.delaydate) from rentalstatus r left join user u on r.userno = u.userno where u.userno = 12001;
+
+select u.userno, r.delaydate from rentalstatus r left join user u on r.userno = u.userno;
+
+update (select u.userno, sum(r.delaydate), u.isBlackList from rentalstatus r left join user u on r.userno = u.userno) d set u.isBlackList = 1 where sum(r.delaydate) > 100;
+
+update user u
+   set
+
+select * from user;
+
+update user set isBlackList = 0;
+
+-- 블랙리스트! (case1 delaydate 100 초과)
+update user u, rentalstatus r set u.isBlackList = 1 where u.userno = (select r.userno from rentalstatus r group by r.userno having sum(delaydate) > 100) or u.userno = (select r.userno from rentalstatus r group by r.userno having count(delaydate) > 5);
+
+-- case2 연체권수 5권 이상
+select r.userno from rentalstatus r group by r.userno having count(delaydate) > 5;
+
+select u.userno  from user u left join rentalstatus r on u.userno = r.userno group by u.userno having sum(r.delaydate) > 100;
+
+select * from user;
+select * from rentalstatus;
+select * from rentalstatus having sum(delaydate) > 100;
+
+select r.userno from rentalstatus r group by r.userno having sum(r.delaydate) > 100;
+
+
+
+
+
+

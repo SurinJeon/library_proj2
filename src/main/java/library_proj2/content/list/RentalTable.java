@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.detail.BookDetail;
 import library_proj2.dto.Book;
 import library_proj2.dto.RentalStatus;
@@ -26,6 +27,7 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 	private BookTable pBookList;
 	private BookDetail pBookDetail;
 	private int delimiter;
+	private SummaryPanel pSummaryMain;
 	
 	public RentalTable() {
 	}
@@ -127,6 +129,7 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 			
 			frame.setpBookListMain(pBookList);
 			frame.setpRentalListMain(this);
+			frame.setpSummaryMain(pSummaryMain);
 			frame.setVisible(true);
 			
 			this.delimiter = 1;
@@ -194,4 +197,13 @@ public class RentalTable extends AbstractCustomTable<RentalStatus> implements Mo
 	public void setDelimiter(int delimiter) {
 		this.delimiter = delimiter;
 	}
+
+	public SummaryPanel getpSummaryMain() {
+		return pSummaryMain;
+	}
+
+	public void setpSummaryMain(SummaryPanel pSummaryMain) {
+		this.pSummaryMain = pSummaryMain;
+	}
+	
 }

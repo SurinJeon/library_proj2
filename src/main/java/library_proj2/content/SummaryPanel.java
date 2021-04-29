@@ -71,10 +71,10 @@ public class SummaryPanel extends JPanel {
 		tfBook.setText(service.canRentCount() + "권");
 		tfDelay.setText(service.isDelayCount() + "권");
 		
-		tfDate.setEditable(false);
-		tfUser.setEditable(false);
-		tfBook.setEditable(false);
-		tfDelay.setEditable(false);
+//		tfDate.setEditable(false);
+//		tfUser.setEditable(false);
+//		tfBook.setEditable(false);
+//		tfDelay.setEditable(false);
 	}
 
 }

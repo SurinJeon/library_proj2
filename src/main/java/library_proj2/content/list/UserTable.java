@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.cmb.UserCmb;
 import library_proj2.content.detail.UserDetail;
 import library_proj2.dto.RentalStatus;
@@ -29,6 +30,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 	private int delimiter;
 	private BookTable pBookListMain;
 	private UserTable pUserListMain;
+	private SummaryPanel pSummaryMain;
 	
 	public UserTable() {
 	}
@@ -85,7 +87,6 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			frame.getpUserDetail().setUser(userList.get(0));
 			
 			frame.setpBookListMain(pBookListMain);
-		
 			
 			List<User> searchUser = frame.getpUserList().getList()
 					.stream().filter(user -> user.getUserNo()==userNo)
@@ -95,6 +96,7 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 			frame.getpUserList().table.setRowSelectionInterval(idxRent, idxRent);
 			frame.setpUserListMain(this);
 			
+			frame.setpSummaryMain(pSummaryMain);
 			frame.setVisible(true);
 		}
 		
@@ -195,6 +197,14 @@ public class UserTable extends AbstractCustomTable<User> implements MouseListene
 
 	public void setpUserListMain(UserTable pUserTableMain) {
 		this.pUserListMain = pUserTableMain;
+	}
+
+	public SummaryPanel getpSummaryMain() {
+		return pSummaryMain;
+	}
+
+	public void setpSummaryMain(SummaryPanel pSummaryMain) {
+		this.pSummaryMain = pSummaryMain;
 	}
 	
 }

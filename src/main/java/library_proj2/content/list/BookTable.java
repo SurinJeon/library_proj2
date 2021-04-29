@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.detail.BookDetail;
 import library_proj2.content.detail.UserDetail;
 import library_proj2.dto.Book;
@@ -36,6 +37,7 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 	private BookDetail pBookDetail;
 	private int delimiter;
 	private BookTable pBookListMain;
+	private SummaryPanel pSummaryMain;
 	
 	public BookTable() {
 	}
@@ -167,6 +169,7 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 					BookTable bookPanel = frame.getpBookList();
 
 					frame.setpBookListMain(this);
+					frame.setpSummaryMain(pSummaryMain);
 					frame.setVisible(true);
 
 					this.delimiter = 1; // 다시 목록 계속 더블클릭 할 수 있도록
@@ -222,6 +225,14 @@ public class BookTable extends AbstractCustomTable implements MouseListener{
 
 	public void setDelimiter(int delimiter) {
 		this.delimiter = delimiter;
+	}
+
+	public SummaryPanel getpSummaryMain() {
+		return pSummaryMain;
+	}
+
+	public void setpSummaryMain(SummaryPanel pSummaryMain) {
+		this.pSummaryMain = pSummaryMain;
 	}
 	
 }

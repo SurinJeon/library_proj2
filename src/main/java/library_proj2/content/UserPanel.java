@@ -1,25 +1,21 @@
 package library_proj2.content;
 
-import javax.swing.JPanel;
-
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import com.toedter.calendar.JDateChooser;
 
 import library_proj2.dto.User;
 import library_proj2.exception.InvalidCheckException;
-
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.DefaultComboBoxModel;
 
 public class UserPanel extends JPanel {
 	private JTextField tfUserNo;
@@ -30,6 +26,7 @@ public class UserPanel extends JPanel {
 	private JTextField tfAddress;
 	private JPasswordField pfPass;
 	private JDateChooser dateChooser;
+	private JComboBox cmbBlackList;
 
 	public JPasswordField getPfPass() {
 		return pfPass;
@@ -45,6 +42,7 @@ public class UserPanel extends JPanel {
 
 	public UserPanel() {
 		initialize();
+		cmbBlackList.setSelectedIndex(-1);
 	}
 
 
@@ -106,6 +104,14 @@ public class UserPanel extends JPanel {
 		tfAddress.setColumns(10);
 		add(tfAddress);
 		
+		JLabel lblBlackList = new JLabel("블랙리스트 여부: ");
+		lblBlackList.setHorizontalAlignment(SwingConstants.TRAILING);
+		add(lblBlackList);
+		
+		cmbBlackList = new JComboBox();
+		cmbBlackList.setModel(new DefaultComboBoxModel(new String[] {"예", "아니오"}));
+		add(cmbBlackList);
+		
 		JLabel lblPass = new JLabel("관리자 비밀번호: ");
 		lblPass.setHorizontalAlignment(SwingConstants.TRAILING);
 		add(lblPass);
@@ -115,6 +121,13 @@ public class UserPanel extends JPanel {
 	}
 	
 	public void setUser(User user) {
+
+		int idx = 0;
+		
+		if(user.getIsBlackList() == 0) {
+			idx = 1;
+		} 
+		
 		tfUserName.setText(user.getUserName());
 		tfUserNo.setText(user.getUserNo() + "");
 		tfTel.setText(user.getTel());
@@ -122,6 +135,7 @@ public class UserPanel extends JPanel {
 		dateChooser.setDate(user.getUserBirth());
 		tfAddress.setText(user.getAddress());
 		tfAccount.setText(user.getAccount());
+		cmbBlackList.setSelectedIndex(idx);
 	}
 	
 	public User getUser() {
@@ -133,7 +147,7 @@ public class UserPanel extends JPanel {
 		String tel = "";
 		String phone = "";
 		String address = "";
-		
+		int isBlackList = 0;
 		try {
 			validCheck();
 			userNo = Integer.parseInt(tfUserNo.getText().trim());
@@ -143,11 +157,12 @@ public class UserPanel extends JPanel {
 			tel = tfTel.getText().trim();
 			phone = tfPhone.getText().trim();
 			address = tfAddress.getText().trim();
+			isBlackList = cmbBlackList.getSelectedIndex() == 0 ? 1 : 0; 
 		} catch (InvalidCheckException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
-		return new User(userNo, userName, userBirth, account, tel, phone, address);
+		return new User(userNo, userName, userBirth, account, tel, phone, address, isBlackList);
 	}
 	
 	private void validCheck() {

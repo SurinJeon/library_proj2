@@ -2,7 +2,7 @@ select user(), database();
 
 drop view vw_all;
 
-
+-- view 여기임!!
 create view vw_all
 as
 select b.bookno, b.booktitle, b.isRented, b.count, b.rentalrange,

@@ -26,6 +26,7 @@ import library_proj2.service.ReturnService;
 import library_proj2.service.UserService;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 public class MainPage2 extends JFrame implements ActionListener{
 
@@ -46,6 +47,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	private String id;
 	private String pass;
 	private JPanel panel;
+	private SummaryPanel pSummary;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -77,8 +79,14 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pUserList.setpBookListMain(pBookList);
 		pUserList.setpUserListMain(pUserList);
 		pUserList.setpRentalList(pRentalList);
+		pUserList.setpSummaryMain(pSummary);
+		
 		
 		pRentalList.setpBookList(pBookList);
+		pRentalList.setpSummaryMain(pSummary);
+		
+		
+		pBookList.setpSummaryMain(pSummary);
 		
 	}
 	
@@ -98,7 +106,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 		tabbedPane.addTab("도서 대출 현황", null, pFirst, null);
 		pFirst.setLayout(new BorderLayout(0, 0));
 		
-		SummaryPanel pSummary = new SummaryPanel();
+		pSummary = new SummaryPanel();
 		pSummary.setService(mainService);
 		pSummary.setSummary();
 		pFirst.add(pSummary, BorderLayout.NORTH);
@@ -163,14 +171,21 @@ public class MainPage2 extends JFrame implements ActionListener{
 		pThird.add(pBookList, BorderLayout.CENTER);
 		
 		JPanel pFourth = new JPanel();
-		tabbedPane.addTab("이달의 리뷰", null, pFourth, null);
+		tabbedPane.addTab("블랙리스트", null, pFourth, null);
 		pFourth.setLayout(new BorderLayout(0, 0));
 		
-		JPanel pChart = new JPanel();
-		pFourth.add(pChart, BorderLayout.CENTER);
-		
-		JLabel lblText = new JLabel("이달의 도서 순위");
+		JLabel lblText = new JLabel("블랙리스트 관리");
 		pFourth.add(lblText, BorderLayout.NORTH);
+		
+		JPanel pContain = new JPanel();
+		pFourth.add(pContain, BorderLayout.CENTER);
+		pContain.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JPanel pBlackList = new JPanel();
+		pContain.add(pBlackList);
+		
+		JPanel pSwitch = new JPanel();
+		pContain.add(pSwitch);
 		
 		JPanel pBtn = new JPanel();
 		FlowLayout fl_pBtn = (FlowLayout) pBtn.getLayout();
@@ -211,6 +226,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	
 	protected void actionPerformedBtnRental(ActionEvent e) {
 		RentalPage frame = new RentalPage();
+		frame.setpSummaryMain(pSummary);
 		frame.setpBookListMain(pBookList);
 		frame.setpUserListMain(pUserList);
 		frame.setVisible(true);
@@ -218,6 +234,7 @@ public class MainPage2 extends JFrame implements ActionListener{
 	
 	protected void actionPerformedBtnReturn(ActionEvent e) {
 		ReturnPage frame = new ReturnPage();
+		frame.setpSummaryMain(pSummary);
 		frame.setpBookListMain(pBookList);
 		frame.setpRentalListMain(pRentalList);
 		frame.setVisible(true);

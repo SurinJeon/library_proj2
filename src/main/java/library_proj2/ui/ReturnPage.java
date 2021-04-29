@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.cmb.UserCmb;
 import library_proj2.content.detail.BookDetail;
 import library_proj2.content.detail.UserDetail;
@@ -44,6 +45,7 @@ public class ReturnPage extends JFrame implements ActionListener {
 	private RentalTable pRentalList;
 	private BookTable pBookListMain;
 	private RentalTable pRentalListMain;
+	private SummaryPanel pSummaryMain;
 	
 	public ReturnPage() {
 		mainService = new MainService();
@@ -153,6 +155,10 @@ public class ReturnPage extends JFrame implements ActionListener {
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
+			
+			pSummaryMain.setService(mainService);
+			pSummaryMain.setSummary();
+			
 			pRentalList.loadData();
 			pUserList.loadData();
 			pRentalListMain.loadData();
@@ -211,8 +217,13 @@ public class ReturnPage extends JFrame implements ActionListener {
 	public void setpRentalListMain(RentalTable pRentalListMain) {
 		this.pRentalListMain = pRentalListMain;
 	}
+	public SummaryPanel getpSummaryMain() {
+		return pSummaryMain;
+	}
+	public void setpSummaryMain(SummaryPanel pSummaryMain) {
+		this.pSummaryMain = pSummaryMain;
+	}
 
-	
 }
 
 

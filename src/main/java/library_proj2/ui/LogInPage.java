@@ -59,7 +59,8 @@ public class LogInPage extends JFrame implements ActionListener {
 			if( mng != null) {
 				if(mng.getMngAccount().equals(searchMn.getMngAccount()) && mng.getPasswd().equals(searchMn.getPasswd())) {
 					service.updateDelayDate(); // 연체일 update
-					
+					service.updateBlackList(); // 블랙리스트 회원 update
+
 					MainPage2 frame = new MainPage2();
 					frame.setId(mng.getMngAccount());
 					frame.setPass(mng.getPasswd());

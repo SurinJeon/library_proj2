@@ -22,4 +22,6 @@ public interface RentalStatusDao {
 	
 	// 로그인 할 때 연체일 로드
 	int updateRentalStatusLogIn();
+
+	int updateBlackList();
 }

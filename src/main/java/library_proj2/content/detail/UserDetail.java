@@ -23,6 +23,7 @@ public class UserDetail extends JPanel {
 	private JTextField tfDate;
 	private JTextField tfAddress;
 	private JTextField tfAccount;
+	private JTextField tfBlackList;
 
 	public UserDetail() {
 
@@ -110,27 +111,37 @@ public class UserDetail extends JPanel {
 		
 		JLabel lblAddress = new JLabel("주소:");
 		lblAddress.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblAddress.setBounds(12, 130, 57, 15);
+		lblAddress.setBounds(12, 124, 57, 15);
 		panel.add(lblAddress);
 		
 		tfAddress = new JTextField();
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(81, 127, 116, 21);
+		tfAddress.setBounds(81, 121, 116, 21);
 		panel.add(tfAddress);
 		
 		JLabel lblAccount = new JLabel("계정:");
 		lblAccount.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblAccount.setBounds(209, 130, 57, 15);
+		lblAccount.setBounds(209, 124, 57, 15);
 		panel.add(lblAccount);
 		
 		tfAccount = new JTextField();
 		tfAccount.setColumns(10);
-		tfAccount.setBounds(278, 127, 143, 21);
+		tfAccount.setBounds(278, 121, 143, 21);
 		panel.add(tfAccount);
 		
 		JLabel lblText = new JLabel("대여회원상세정보");
 		lblText.setBounds(12, 10, 185, 15);
 		panel.add(lblText);
+		
+		JLabel lblBlackList = new JLabel("블랙리스트: ");
+		lblBlackList.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblBlackList.setBounds(278, 96, 83, 15);
+		panel.add(lblBlackList);
+		
+		tfBlackList = new JTextField();
+		tfBlackList.setColumns(10);
+		tfBlackList.setBounds(369, 93, 41, 21);
+		panel.add(tfBlackList);
 	}
 	
 	public void setUser(User user) {
@@ -143,6 +154,7 @@ public class UserDetail extends JPanel {
 		tfDate.setText(user.getUserBirth().getDate() + "");
 		tfAddress.setText(user.getAddress());
 		tfAccount.setText(user.getAccount());
+		tfBlackList.setText(user.getIsBlackList() == 1? "O" : "X");
 	}
 	
 	public User getUser() {
@@ -151,7 +163,8 @@ public class UserDetail extends JPanel {
 		int month = Integer.parseInt(tfMonth.getText()) - 1;
 		int birthDate = Integer.parseInt(tfDate.getText());
 		Date birth = new Date(year, month, birthDate);
-		return new User(Integer.parseInt(tfUserNo.getText()), tfUserName.getText(), birth, tfAccount.getText(), tfTel.getText(), tfPhone.getText(), tfAddress.getText());
+		int isBlackList = tfBlackList.getText().equals("O")? 1 : 0;
+		return new User(Integer.parseInt(tfUserNo.getText()), tfUserName.getText(), birth, tfAccount.getText(), tfTel.getText(), tfPhone.getText(), tfAddress.getText(), isBlackList);
 	}
 	private void validCheck() {
 		// validCheck 체크하기
@@ -168,5 +181,6 @@ public class UserDetail extends JPanel {
 		tfDate.setText("");
 		tfAddress.setText("");
 		tfAccount.setText("");
+		tfBlackList.setText("");
 	}
 }

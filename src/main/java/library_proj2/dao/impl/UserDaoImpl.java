@@ -31,7 +31,8 @@ public class UserDaoImpl implements UserDao {
 		String tel = null;
 		String phone = null;
 		String address = null;
-
+		int isBlackList = 0;
+		
 		try {
 			userNo = rs.getInt("userno");
 		} catch (SQLException e) {
@@ -66,13 +67,18 @@ public class UserDaoImpl implements UserDao {
 			address = rs.getString("address");
 		} catch (SQLException e) {
 		}
+		
+		try {
+			isBlackList = rs.getInt("isblacklist");
+		} catch (SQLException e) {
+		}
 
-		return new User(userNo, userName, userBirth, account, tel, phone, address);
+		return new User(userNo, userName, userBirth, account, tel, phone, address, isBlackList);
 	}
 
 	@Override
 	public List<User> selectUserByAll() {
-		String sql = "select userno, username, userbirth, account, tel, phone, address from user";
+		String sql = "select userno, username, userbirth, account, tel, phone, address, isblacklist from user";
 		try (Connection con = JdbcUtil.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();) {
@@ -91,7 +97,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> selectUserByNo(User user) {
-		String sql = "select userno, username, userbirth, account, tel, phone, address from user where userno = ?";
+		String sql = "select userno, username, userbirth, account, tel, phone, address, isblacklist from user where userno = ?";
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setInt(1, user.getUserNo());
 
@@ -112,7 +118,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> selectUserByName(User user) {
-		String sql = "select userno, username, userbirth, account, tel, phone, address from user where username like ?";
+		String sql = "select userno, username, userbirth, account, tel, phone, address, isblacklist from user where username like ?";
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, "%" + user.getUserName() + "%");
 
@@ -133,7 +139,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> selectUserByPhone(User user) {
-		String sql = "select userno, username, userbirth, account, tel, phone, address from user where phone like ?";
+		String sql = "select userno, username, userbirth, account, tel, phone, address, isblacklist from user where phone like ?";
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, "%" + user.getPhone() + "%");
 
@@ -154,7 +160,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> selectUserByAccount(User user) {
-		String sql = "select userno, username, userbirth, account, tel, phone, address from user where account like ?";
+		String sql = "select userno, username, userbirth, account, tel, phone, address, isblacklist from user where account like ?";
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, "%" + user.getAccount() + "%");
 
@@ -175,7 +181,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int insertUser(User user) {
-		String sql = "insert into user values (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into user values (?, ?, ?, ?, ?, ?, ?, 0)";
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setInt(1, user.getUserNo());
 			pstmt.setString(2, user.getUserName());
@@ -194,7 +200,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int updateUser(User user) {
-		String sql = "update user set userno = ?, username = ?, userbirth = ?, account = ?, tel = ?, phone = ?, address = ?"
+		String sql = "update user set userno = ?, username = ?, userbirth = ?, account = ?, tel = ?, phone = ?, address = ?, isblacklist = ?"
 				+ " where userno = ?";
 
 		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -205,7 +211,8 @@ public class UserDaoImpl implements UserDao {
 			pstmt.setString(5, user.getTel());
 			pstmt.setString(6, user.getPhone());
 			pstmt.setString(7, user.getAddress());
-			pstmt.setInt(8, user.getUserNo());
+			pstmt.setInt(8, user.getIsBlackList());
+			pstmt.setInt(9, user.getUserNo());
 
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -258,4 +265,5 @@ public class UserDaoImpl implements UserDao {
 		}
 		return 0;
 	}
+	
 }

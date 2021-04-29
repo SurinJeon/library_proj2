@@ -148,5 +148,20 @@ public class RentalStatusDaoImpl implements RentalStatusDao {
 		}
 		return 0;
 	}
+	
+	@Override
+	public int updateBlackList() {
+		String sql = "update user u, rentalstatus r "
+				+ "set u.isBlackList = 1 "
+				+ "where u.userno = (select r.userno from rentalstatus r group by r.userno having sum(delaydate) > 100) "
+				+ "or u.userno = (select r.userno from rentalstatus r group by r.userno having count(delaydate) > 5)";
+
+		try (Connection con = JdbcUtil.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 }

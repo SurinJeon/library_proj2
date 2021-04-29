@@ -12,7 +12,8 @@ public class User {
 	private String tel;
 	private String phone;
 	private String address;
-
+	private int isBlackList;
+	
 	public User() {
 		super();
 	}
@@ -47,7 +48,18 @@ public class User {
 		this.userBirth = userBirth;
 	}
 
-	public User(int userNo, String userName, Date userBirth, String account, String tel, String phone, String address) {
+//	public User(int userNo, String userName, Date userBirth, String account, String tel, String phone, String address) {
+//		this.userNo = userNo;
+//		this.userName = userName;
+//		this.userBirth = userBirth;
+//		this.account = account;
+//		this.tel = tel;
+//		this.phone = phone;
+//		this.address = address;
+//	}
+//	
+	public User(int userNo, String userName, Date userBirth, String account, String tel, String phone, String address,
+			int isBlackList) {
 		this.userNo = userNo;
 		this.userName = userName;
 		this.userBirth = userBirth;
@@ -55,6 +67,7 @@ public class User {
 		this.tel = tel;
 		this.phone = phone;
 		this.address = address;
+		this.isBlackList = isBlackList;
 	}
 
 	public int getUserNo() {
@@ -113,10 +126,20 @@ public class User {
 		this.address = address;
 	}
 
+	
+	public int getIsBlackList() {
+		return isBlackList;
+	}
+
+	public void setIsBlackList(int isBlackList) {
+		this.isBlackList = isBlackList;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("User %d, %s, %s, %s, %s, %s, %s", userNo, userName, userBirth, account, tel, phone,
-				address);
+		return String.format(
+				"User [userNo=%s, userName=%s, userBirth=%s, account=%s, tel=%s, phone=%s, address=%s, isBlackList=%s]",
+				userNo, userName, userBirth, account, tel, phone, address, isBlackList);
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import library_proj2.content.SummaryPanel;
 import library_proj2.content.cmb.BookCmb;
 import library_proj2.content.cmb.UserCmb;
 import library_proj2.content.detail.BookDetail;
@@ -41,6 +42,7 @@ public class RentalPage extends JFrame implements ActionListener {
 	private BookTable pBookList;
 	private BookTable pBookListMain;
 	private UserTable pUserListMain;
+	private SummaryPanel pSummaryMain;
 	
 	public RentalPage() {
 		rentalService = new RentalService();
@@ -142,11 +144,16 @@ public class RentalPage extends JFrame implements ActionListener {
 		User user = pUserDetail.getUser();
 		Book book = pBookDetail.getBook();
 
+		System.out.println("user >> " + user);
+		
 		try {
 			if (user != null && book != null) {
 				System.out.println(book.getIsRented());
 				if (book.getIsRented() == 0) {
 					throw new RentalAndReturnException("이미 대출된 도서입니다.");
+				}
+				if(user.getIsBlackList() == 1) {
+					throw new RentalAndReturnException("블랙리스트 회원은 대여불가합니다.");
 				}
 				rentalService.transRental(user, book);
 			} else {
@@ -161,6 +168,9 @@ public class RentalPage extends JFrame implements ActionListener {
 			pBookListMain.setMainService(mainService);
 			pBookListMain.setRentalService(rentalService);
 			pBookListMain.loadData();
+			
+			pSummaryMain.setService(mainService);
+			pSummaryMain.setSummary();
 			
 			pUserListMain.loadData();
 			
@@ -210,5 +220,11 @@ public class RentalPage extends JFrame implements ActionListener {
 	public void setpUserListMain(UserTable pUserListMain) {
 		this.pUserListMain = pUserListMain;
 	}
-
+	public SummaryPanel getpSummaryMain() {
+		return pSummaryMain;
+	}
+	public void setpSummaryMain(SummaryPanel pSummaryMain) {
+		this.pSummaryMain = pSummaryMain;
+	}
+	
 }
